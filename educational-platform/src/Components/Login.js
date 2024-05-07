@@ -11,7 +11,10 @@ const Login = () => {
       password,
     };
     axios
-      .post(`https://nasa-app-backend-usermanagement.onrender.com/api/users/login`, body)
+      .post(
+        `https://nasa-app-backend-usermanagement.onrender.com/api/users/login`,
+        body
+      )
       .then((res) => {
         if (res.data.message == "Login Successfull") {
           alert("Login successfull");
@@ -114,7 +117,7 @@ const Login = () => {
 
           <div className="col-lg-6 mb-5 mb-lg-0">
             <img
-              src="./images/login-image.jpg"
+              src="./images/books.jpg"
               className="w-100 rounded-4 shadow-4"
               alt=""
             />
