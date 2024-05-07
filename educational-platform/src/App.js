@@ -6,6 +6,7 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import "./Styles/login.css";
+import "./Styles/theme.css";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import LearnerDashboard from "./Components/LearnerDashboard";

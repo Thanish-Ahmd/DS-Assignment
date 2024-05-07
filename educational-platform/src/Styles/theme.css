@@ -1,0 +1,22 @@
+.navigation-container {
+  background-color: rgb(27, 27, 27);
+  height: 100vh;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  padding-right: 0 !important;
+}
+
+.nav-item-container {
+  color: white;
+  text-decoration: none;
+  font-size: large;
+  width: 100%;
+  padding: 5px;
+  padding-left: 10px;
+}
+
+.nav-item-container:hover {
+  background-color: white;
+  color: black;
+}
