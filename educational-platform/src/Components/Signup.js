@@ -141,7 +141,7 @@ const Signup = () => {
 
           <div className="col-lg-6 mb-5 mb-lg-0">
             <img
-              src="./images/login-image2.jpg"
+              src="./images/signup-img.jpg"
               className="w-100 rounded-4 shadow-4"
               alt=""
             />
