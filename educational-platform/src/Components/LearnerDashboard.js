@@ -1,19 +1,10 @@
 import React from "react";
+import LearnerNavBar from "./LearnerNavBar";
 
 const LearnerDashboard = () => {
   return (
     <div className="row">
-      <div className="col-md-2 navigation-container">
-        <a href="" className="nav-item-container">
-          navigation
-        </a>
-        <a href="" className="nav-item-container">
-          navigation
-        </a>
-        <a href="" className="nav-item-container">
-          navigation
-        </a>
-      </div>
+      <LearnerNavBar />
       <div className="col-md-10">
         <h4>content</h4>
       </div>
