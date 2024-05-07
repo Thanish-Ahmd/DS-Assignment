@@ -5,10 +5,11 @@ import {
   Routes,
   BrowserRouter,
 } from "react-router-dom";
-import "./App.css";
+import "./Styles/login.css";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import LearnerDashboard from "./Components/LearnerDashboard";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
