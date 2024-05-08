@@ -11,15 +11,12 @@ const Login = () => {
       password,
     };
     axios
-      .post(
-        `https://nasa-app-backend-usermanagement.onrender.com/api/users/login`,
-        body
-      )
+      .post(`http://localhost:8081/api/learners/login`, body)
       .then((res) => {
         if (res.data.message == "Login Successfull") {
           alert("Login successfull");
           localStorage.setItem("token", res.data.token);
-          window.location = "/";
+          window.location = "/learnerDashboard";
         } else if (res.data.message == "Incorrect password") {
           alert("Incorrect Password");
         } else if (res.data.message == "Invalid email") {
