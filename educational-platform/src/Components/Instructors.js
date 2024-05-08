@@ -23,7 +23,11 @@ const Instructors = () => {
     <div className="row">
       <AdminNavBar />
       <div className="col-md-10">
-        <table class="table">
+        <h3>All Instructors</h3>
+        <a href="/addInstructor" className="btn btn-success">
+          Add Instructor{" "}
+        </a>
+        <table class="table table-instrcutor">
           <thead class="table-warning">
             <tr>
               <th scope="col">#</th>
