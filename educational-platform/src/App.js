@@ -10,6 +10,7 @@ import "./Styles/theme.css";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import LearnerDashboard from "./Components/LearnerDashboard";
+import InstructorDashboard from "./Components/LearnerDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -20,6 +21,10 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/learnerDashboard" element={<LearnerDashboard />} />
+          <Route
+            path="/instructorDashboard"
+            element={<InstructorDashboard />}
+          />
         </Routes>
       </div>
     </BrowserRouter>
