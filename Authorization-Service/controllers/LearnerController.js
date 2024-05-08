@@ -62,13 +62,12 @@ exports.sendOTP = async (req, res) => {
   const { email } = req.body;
 
   let num = "";
+  const learner = await Learner.findOne({ email: email });
 
   num += Math.floor(Math.random() * 10);
   num += Math.floor(Math.random() * 10);
   num += Math.floor(Math.random() * 10);
   num += Math.floor(Math.random() * 10);
-
-  console.log(num);
 
   const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
@@ -79,23 +78,27 @@ exports.sendOTP = async (req, res) => {
       pass: "Culer@123",
     },
   });
-  const mailOptions = {
-    from: "dentalclinicitp@zohomail.com",
-    to: `${email}`,
-    subject: "User Registration Verification",
-    text: `Hello User , \n This is your OTP for your email verification /nOTP - ${num} /n/n Thank you`,
-  };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-      res.status(200).send({ meesage: "OTP sent", otp: num });
-    }
-  });
+  if (learner) {
+    res.status(200).send({ message: "Email already exist" });
+  } else {
+    const mailOptions = {
+      from: "dentalclinicitp@zohomail.com",
+      to: `${email}`,
+      subject: "User Registration Verification",
+      text: `Hello User , \n This is your OTP for your email verification /nOTP - ${num} /n/n Thank you`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+        res.status(200).send({ meesage: "OTP sent", otp: num });
+      }
+    });
+  }
 };
-
 
 exports.userLogin = async (req, res) => {
   const { email, password } = req.body;

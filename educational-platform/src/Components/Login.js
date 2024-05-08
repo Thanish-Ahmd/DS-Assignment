@@ -4,29 +4,36 @@ import axios from "axios";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [type, setType] = useState("Learner");
 
   const login = () => {
     const body = {
       email,
       password,
     };
-    axios
-      .post(`http://localhost:8081/api/learners/login`, body)
-      .then((res) => {
-        if (res.data.message == "Login Successfull") {
-          alert("Login successfull");
-          localStorage.setItem("token", res.data.token);
-          window.location = "/learnerDashboard";
-        } else if (res.data.message == "Incorrect password") {
-          alert("Incorrect Password");
-        } else if (res.data.message == "Invalid email") {
-          alert("Invalid Email");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Error occured");
-      });
+    if (type == "Learner") {
+      axios
+        .post(`http://localhost:8081/api/learners/login`, body)
+        .then((res) => {
+          if (res.data.message == "Login Successfull") {
+            alert("Login successfull");
+            localStorage.setItem("token", res.data.token);
+            window.location = "/learnerDashboard";
+          } else if (res.data.message == "Incorrect password") {
+            alert("Incorrect Password");
+          } else if (res.data.message == "Invalid email") {
+            alert("Invalid Email");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Error occured");
+        });
+    } else if (type == "Instructor") {
+      alert("Instructor login");
+    } else if (type == "Admin") {
+      alert("Admin login");
+    }
   };
   return (
     <section className="text-center text-lg-start">
@@ -52,6 +59,42 @@ const Login = () => {
             >
               <div className="card-body p-5 shadow-5 text-center">
                 <h2 className="fw-bold mb-5">Login</h2>
+                <div className="user-type-container">
+                  <div>
+                    <input
+                      type="radio"
+                      name="user-type"
+                      value="Learner"
+                      checked
+                      onChange={(e) => {
+                        setType(e.target.value);
+                      }}
+                    />
+                    <label htmlFor="">Learner</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      name="user-type"
+                      value="Instructor"
+                      onChange={(e) => {
+                        setType(e.target.value);
+                      }}
+                    />
+                    <label htmlFor="">Instructor</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      name="user-type"
+                      value="Admin"
+                      onChange={(e) => {
+                        setType(e.target.value);
+                      }}
+                    />
+                    <label htmlFor="">Admin</label>
+                  </div>
+                </div>
                 <form
                   action=""
                   onSubmit={(e) => {
