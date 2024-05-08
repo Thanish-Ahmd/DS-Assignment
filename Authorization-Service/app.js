@@ -8,7 +8,9 @@ const cors = require("cors");
 const app = express();
 
 const logger = require("./middleware/logger");
-const courseRoutes = require("./routes/learners");
+const learnerRoutes = require("./routes/learners");
+const adminRoutes = require("./routes/admins");
+const instrcutorRoutes = require("./routes/instructors");
 
 // Parse JSON bodies
 app.use(bodyParser.json());
@@ -27,7 +29,9 @@ mongoose
 app.use(logger);
 
 // Routes
-app.use(courseRoutes);
+app.use(learnerRoutes);
+app.use(adminRoutes);
+app.use(instrcutorRoutes);
 
 // Start server
 const PORT = process.env.PORT || 8081;
