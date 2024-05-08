@@ -6,7 +6,7 @@ const Admin = require("../models/Admin");
 // const verifyToken = commonFunctions.verifyToken;
 // const secretKey = process.env.SECRET_KEY;
 
-exports.getAllLearners = async (req, res) => {
+exports.getAllAdmins = async (req, res) => {
   try {
     const admins = await Admin.find();
     res.status(200).send({
