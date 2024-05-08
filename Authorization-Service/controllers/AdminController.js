@@ -1,10 +1,10 @@
 const Admin = require("../models/Admin");
-//const jwt = require("jsonwebtoken");
-//const commonFunctions = require("./commonFunctions");
-//const { hashPassword, comparePasswords } = require("../middleware/encryption");
+const jwt = require("jsonwebtoken");
+const commonFunctions = require("./commonFunctions");
+const { hashPassword, comparePasswords } = require("../middleware/encryption");
 
-// const verifyToken = commonFunctions.verifyToken;
-// const secretKey = process.env.SECRET_KEY;
+const verifyToken = commonFunctions.verifyToken;
+const secretKey = process.env.SECRET_KEY;
 
 exports.getAllAdmins = async (req, res) => {
   try {

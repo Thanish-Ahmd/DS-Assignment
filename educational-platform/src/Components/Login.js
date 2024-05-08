@@ -4,7 +4,7 @@ import axios from "axios";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState("Learner");
+  const [type, setType] = useState("");
 
   const login = () => {
     const body = {
@@ -33,6 +33,8 @@ const Login = () => {
       alert("Instructor login");
     } else if (type == "Admin") {
       alert("Admin login");
+    } else {
+      alert("Select an user type!!");
     }
   };
   return (
@@ -65,9 +67,9 @@ const Login = () => {
                       type="radio"
                       name="user-type"
                       value="Learner"
-                      checked
                       onChange={(e) => {
                         setType(e.target.value);
+                        console.log(e.target.value);
                       }}
                     />
                     <label htmlFor="">Learner</label>
@@ -79,6 +81,7 @@ const Login = () => {
                       value="Instructor"
                       onChange={(e) => {
                         setType(e.target.value);
+                        console.log(e.target.value);
                       }}
                     />
                     <label htmlFor="">Instructor</label>
@@ -90,6 +93,7 @@ const Login = () => {
                       value="Admin"
                       onChange={(e) => {
                         setType(e.target.value);
+                        console.log(e.target.value);
                       }}
                     />
                     <label htmlFor="">Admin</label>
