@@ -1,7 +1,7 @@
 import React from "react";
 import AdminNavBar from "./AdminNavBar";
 
-const AdminDashboard = () => {
+const CourseContent = () => {
   return (
     <div className="row">
       <AdminNavBar />
@@ -12,4 +12,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default CourseContent;
