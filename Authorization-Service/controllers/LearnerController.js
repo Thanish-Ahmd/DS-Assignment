@@ -127,3 +127,84 @@ exports.userLogin = async (req, res) => {
     res.status(500).send({ error });
   }
 };
+
+exports.verifyLearner = async (req, res) => {
+  const token = req.headers.token;
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "learner") {
+          res.status(200).send({
+            message: "Authentication Successfull",
+            email: decoded.email,
+          });
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getLearner = async (req, res) => {
+  const token = req.headers.token;
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "learner") {
+          const learner = await Learner.find({ email: decoded.email });
+
+          res.status(200).send({ learner: learner, message: "User Retreived" });
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateLearner = async (req, res) => {
+  const { firstName, lastName, password, email } = req.body;
+
+  const updateLearner = {
+    firstName,
+    lastName,
+    password,
+  };
+
+  await Learner.findOneAndUpdate({ email: email }, updateLearner)
+    .then((rs) => {
+      res.status(200).send({ message: "Learner Updated", learner: rs });
+    })
+    .catch((err) => {
+      res.status(200).send({ message: "Error in updating", error: err });
+    });
+};
+
+exports.deleteLearner = async (req, res) => {
+  const { email } = req.body;
+
+  await Learner.findOneAndDelete({ email: email })
+    .then(() => {
+      res.status(200).send({ message: "Learner Deleted" });
+    })
+    .catch((err) => {
+      res.status(200).send({ message: "Error in deleting", error: err });
+    });
+};

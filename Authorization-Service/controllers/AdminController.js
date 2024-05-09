@@ -94,3 +94,85 @@ exports.adminLogin = async (req, res) => {
     res.status(500).send({ error });
   }
 };
+
+exports.verifyAdmin = async (req, res) => {
+  const token = req.headers.token;
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "admin") {
+          res.status(200).send({
+            message: "Authentication Successfull",
+            email: decoded.email,
+          });
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getAdmin = async (req, res) => {
+  const token = req.headers.token;
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "admin") {
+          const admin = await Admin.find({ email: decoded.email });
+
+          res.status(200).send({ admin: admin, message: "Admin Retreived" });
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateAdmin = async (req, res) => {
+  const { firstName, lastName, password, phoneNo, email } = req.body;
+
+  const updateAdmin = {
+    firstName,
+    lastName,
+    password,
+    phoneNo,
+  };
+
+  await Admin.findOneAndUpdate({ email: email }, updateAdmin)
+    .then((rs) => {
+      res.status(200).send({ message: "Instructor Updated", admin: rs });
+    })
+    .catch((err) => {
+      res.status(200).send({ message: "Error in updating", error: err });
+    });
+};
+
+exports.deleteAdmin = async (req, res) => {
+  const { email } = req.body;
+
+  await Admin.findOneAndDelete({ email: email })
+    .then(() => {
+      res.status(200).send({ message: "Admin Deleted" });
+    })
+    .catch((err) => {
+      res.status(200).send({ message: "Error in deleting", error: err });
+    });
+};
