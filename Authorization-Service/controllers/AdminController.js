@@ -2,6 +2,7 @@ const Admin = require("../models/Admin");
 const jwt = require("jsonwebtoken");
 const commonFunctions = require("./commonFunctions");
 const { hashPassword, comparePasswords } = require("../middleware/encryption");
+const nodemailer = require("nodemailer");
 
 const verifyToken = commonFunctions.verifyToken;
 const secretKey = process.env.SECRET_KEY;
@@ -45,7 +46,7 @@ exports.addAdmin = async (req, res) => {
   if (admin) {
     res.status(200).send({ message: "Email already exist" });
   } else {
-    newInstructor.save().then(() => {
+    newAdmin.save().then(() => {
       const mailOptions = {
         from: "dentalclinicitp@zohomail.com",
         to: `${email}`,
@@ -61,7 +62,7 @@ exports.addAdmin = async (req, res) => {
           res.status(200).send({ meesage: "OTP sent", otp: num });
         }
       });
-      res.status(200).send({ message: "Instructor added" });
+      res.status(200).send({ message: "Admin added" });
     });
   }
 };
@@ -75,7 +76,7 @@ exports.adminLogin = async (req, res) => {
 
       if (match) {
         const token = jwt.sign(
-          { email: instrcutor.email, type: "admin" },
+          { email: admin.email, type: "admin" },
           secretKey,
           {
             expiresIn: "1h",
