@@ -1,10 +1,10 @@
 import React from "react";
-import LearnerNavBar from "./LearnerNavBar";
+import AdminNavBar from "./AdminNavBar";
 
-const LearnerDashboard = () => {
+const AdminDashboard = () => {
   return (
     <div className="row">
-      <LearnerNavBar />
+      <AdminNavBar />
       <div className="col-md-10">
         <h4>content</h4>
       </div>
@@ -12,4 +12,4 @@ const LearnerDashboard = () => {
   );
 };
 
-export default LearnerDashboard;
+export default AdminDashboard;

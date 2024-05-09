@@ -20,3 +20,11 @@
   background-color: white;
   color: black;
 }
+
+.table-instrcutor {
+  margin-top: 20px;
+}
+
+.add-instructor-form {
+  width: 90%;
+}

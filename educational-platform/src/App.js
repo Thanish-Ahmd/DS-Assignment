@@ -12,6 +12,9 @@ import Signup from "./Components/Signup";
 import LearnerDashboard from "./Components/LearnerDashboard";
 import InstructorDashboard from "./Components/InstructorDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
+import AdminDashboard from "./Components/AdminDashboard";
+import Instructors from "./Components/Instructors";
+import AddInstructor from "./Components/AddInstructor";
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/learnerDashboard" element={<LearnerDashboard />} />
+          <Route path="/adminDashboard" element={<AdminDashboard />} />
+          <Route path="/instructors" element={<Instructors />} />
+          <Route path="/addInstructor" element={<AddInstructor />} />
         </Routes>
       </div>
     </BrowserRouter>

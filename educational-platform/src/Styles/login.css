@@ -34,3 +34,12 @@
   padding-left: 20px;
   padding-right: 20px;
 }
+
+.user-type-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
