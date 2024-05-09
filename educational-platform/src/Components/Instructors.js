@@ -11,7 +11,7 @@ const Instructors = () => {
 
   const getAllInstrcutors = () => {
     axios
-      .get(`http://localhost:8082/api/instructors/`)
+      .get(`http://localhost:8081/api/instructors/`)
       .then((res) => {
         setInstructors(res.data.instructors);
       })

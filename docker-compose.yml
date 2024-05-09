@@ -1,0 +1,28 @@
+version: "3"
+services:
+  authorization:
+    container_name: authorization-container
+    restart: always
+    build: ./Authorization-Service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+  mongo:
+    container_name: mongo-backend
+    image: mongo
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+  frontend:
+    container_name: frontend-container
+    restart: always
+    build: ./educational-platform
+    ports: 
+      - "3000:3000"
+    depends_on:
+      - authorization
+  
+
+volumes:
+  mongo_db:
