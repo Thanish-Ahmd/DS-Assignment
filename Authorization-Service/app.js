@@ -34,5 +34,5 @@ app.use(adminRoutes);
 app.use(instrcutorRoutes);
 
 // Start server
-const PORT = process.env.PORT || 8082;
+const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
