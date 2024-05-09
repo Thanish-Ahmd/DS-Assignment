@@ -196,3 +196,15 @@ exports.updateLearner = async (req, res) => {
       res.status(200).send({ message: "Error in updating", error: err });
     });
 };
+
+exports.deleteLearner = async (req, res) => {
+  const { email } = req.body;
+
+  await Learner.findOneAndDelete({ email: email })
+    .then(() => {
+      res.status(200).send({ message: "Learner Deleted" });
+    })
+    .catch((err) => {
+      res.status(200).send({ message: "Error in deleting", error: err });
+    });
+};

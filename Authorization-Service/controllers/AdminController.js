@@ -164,3 +164,15 @@ exports.updateAdmin = async (req, res) => {
       res.status(200).send({ message: "Error in updating", error: err });
     });
 };
+
+exports.deleteAdmin = async (req, res) => {
+  const { email } = req.body;
+
+  await Admin.findOneAndDelete({ email: email })
+    .then(() => {
+      res.status(200).send({ message: "Admin Deleted" });
+    })
+    .catch((err) => {
+      res.status(200).send({ message: "Error in deleting", error: err });
+    });
+};

@@ -8,5 +8,6 @@ router.post("/api/admins/add", adminController.addAdmin);
 router.post("/api/admins/login", adminController.adminLogin);
 router.post("/api/admins/verify", adminController.verifyAdmin);
 router.put("/api/admins/update", adminController.updateAdmin);
+router.delete("/api/admins/delete", adminController.deleteAdmin);
 
 module.exports = router;
