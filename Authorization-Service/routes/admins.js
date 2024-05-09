@@ -4,5 +4,7 @@ const adminController = require("../controllers/AdminController");
 
 // Define routes
 router.get("/api/admins/", adminController.getAllAdmins);
+router.post("/api/admins/add", adminController.addAdmin);
+router.get("/api/admins/login", adminController.adminLogin);
 
 module.exports = router;
