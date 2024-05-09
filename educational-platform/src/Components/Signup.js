@@ -42,16 +42,14 @@ const Signup = () => {
     axios
       .post(`http://localhost:8081/api/learners/sendotp`, body)
       .then((res) => {
-
-        if(res.data.message == "Email already exist;")
-        alert("OTP sent to your email checkyour email!!");
+        if (res.data.message == "Email already exist;")
+          alert("OTP sent to your email checkyour email!!");
         setVerified(true);
         setSentOtp(res.data.otp);
         console.log(res.data.otp);
       })
       .catch((err) => {
         alert("Registration not successfull");
-
       });
   };
   return (

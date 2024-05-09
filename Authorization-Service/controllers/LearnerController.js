@@ -108,9 +108,13 @@ exports.userLogin = async (req, res) => {
       const match = await comparePasswords(password, learner.password);
 
       if (match) {
-        const token = jwt.sign({ email: learner.email }, secretKey, {
-          expiresIn: "1h",
-        });
+        const token = jwt.sign(
+          { email: learner.email, type: "learner" },
+          secretKey,
+          {
+            expiresIn: "1h",
+          }
+        );
         res.status(200).send({ message: "Login Successfull", token: token });
       } else {
         res.status(200).send({ message: "Incorrect password" });

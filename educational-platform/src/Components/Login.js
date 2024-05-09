@@ -30,7 +30,23 @@ const Login = () => {
           alert("Error occured");
         });
     } else if (type == "Instructor") {
-      alert("Instructor login");
+      axios
+        .post(`http://localhost:8081/api/instructors/login`, body)
+        .then((res) => {
+          if (res.data.message == "Login Successfull") {
+            alert("Login successfull");
+            localStorage.setItem("token", res.data.token);
+            window.location = "/insructorDashboard";
+          } else if (res.data.message == "Incorrect password") {
+            alert("Incorrect Password");
+          } else if (res.data.message == "Invalid email") {
+            alert("Invalid Email");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Error occured");
+        });
     } else if (type == "Admin") {
       alert("Admin login");
     } else {

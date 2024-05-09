@@ -10,6 +10,7 @@ import "./Styles/theme.css";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import LearnerDashboard from "./Components/LearnerDashboard";
+import InstructorDashboard from "./Components/InstructorDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AdminDashboard from "./Components/AdminDashboard";
 import Instructors from "./Components/Instructors";
@@ -28,6 +29,8 @@ function App() {
           <Route path="/instructors" element={<Instructors />} />
           <Route path="/addInstructor" element={<AddInstructor />} />
           <Route path="/courseContent" element={<CourseContent />} />
+          <Route path="/insructorDashboard" element={<InstructorDashboard />} />
+
         </Routes>
       </div>
     </BrowserRouter>
