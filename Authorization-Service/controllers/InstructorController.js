@@ -94,3 +94,75 @@ exports.instructorLogin = async (req, res) => {
     res.status(500).send({ error });
   }
 };
+
+exports.verifyInstructor = async (req, res) => {
+  const token = req.headers.token;
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "instructor") {
+          res.status(200).send({
+            message: "Authentication Successfull",
+          });
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+            email: decoded.email,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getInstructor = async (req, res) => {
+  const token = req.headers.token;
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "instructor") {
+          const instructor = await Instructor.find({ email: decoded.email });
+
+          res
+            .status(200)
+            .send({ instructor: instructor, message: "Instructor Retreived" });
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateInstructor = async (req, res) => {
+  const { firstName, lastName, password, phoneNo, email } = req.body;
+
+  const updateInstructor = {
+    firstName,
+    lastName,
+    password,
+    phoneNo,
+  };
+
+  await Instructor.findOneAndUpdate({ email: email }, updateInstructor)
+    .then((rs) => {
+      res.status(200).send({ message: "Instructor Updated", instructor: rs });
+    })
+    .catch((err) => {
+      res.status(200).send({ message: "Error in updating", error: err });
+    });
+};
