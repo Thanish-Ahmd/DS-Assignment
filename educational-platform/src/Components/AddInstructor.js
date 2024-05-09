@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AdminNavBar from "./AdminNavBar";
+import axios from "axios";
 
 const AddInstructor = () => {
   const [email, setEmail] = useState("");
@@ -7,6 +8,35 @@ const AddInstructor = () => {
   const [lastName, setLastName] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const addInstructor = () => {
+    const body = {
+      firstName,
+      lastName,
+      email,
+      password,
+      phoneNo,
+    };
+    if (password == confirmPassword) {
+      axios
+        .post(`http://localhost:8081/api/instructors/add`, body)
+        .then((res) => {
+          if (res.data.message == "Email already exist") {
+            alert("Email already exist");
+          } else if (res.data.message == "Instructor added") {
+            alert("Instrcutor added");
+            window.location.href = "/instructors";
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Could no add the instructor");
+        });
+    } else {
+      alert("Passwords do not match each other");
+    }
+  };
   return (
     <div className="row">
       <AdminNavBar />
@@ -22,6 +52,9 @@ const AddInstructor = () => {
                 id="inputEmail4"
                 name="email"
                 placeholder="Email"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
               />
             </div>
             <div className="form-group">
@@ -32,32 +65,74 @@ const AddInstructor = () => {
                 id="inputPassword4"
                 name="password"
                 placeholder="Password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputPassword4">Confirm Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="inputPassword4"
+                name="password"
+                placeholder="Password"
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                }}
               />
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="inputAddress">First Name</label>
+            <label htmlFor="inputFirstName">First Name</label>
             <input
               type="text"
               className="form-control"
-              id="inputAddress"
-              name="address"
+              id="inputFirstName"
+              name="firstName"
               placeholder="First Name"
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="inputAddress2">Last Name</label>
+            <label htmlFor="inputLastName">Last Name</label>
             <input
               type="text"
               className="form-control"
-              id="inputAddress2"
-              name="address2"
+              id="inputLastName"
+              name="lastName"
               placeholder="Last Name"
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputPhoneNo">Phone No</label>
+            <input
+              type="number"
+              className="form-control"
+              id="inputPhoneNo"
+              name="phoneNo"
+              placeholder="Phone No"
+              onChange={(e) => {
+                setPhoneNo(e.target.value);
+              }}
             />
           </div>{" "}
           <br /> <br />
-          <button type="submit" className="btn btn-primary">
-            Sign in
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={(e) => {
+              e.preventDefault();
+              addInstructor();
+            }}
+          >
+            Add Instructor
           </button>
         </form>
       </div>
