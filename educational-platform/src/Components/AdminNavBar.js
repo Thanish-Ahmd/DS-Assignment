@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const AdminNavBar = () => {
   return (
@@ -12,14 +12,14 @@ const AdminNavBar = () => {
       <a href="" className="nav-item-container">
         Admins
       </a>
-      <a href="" className="nav-item-container">
-        Students
+      <a href="/adminProfile" className="nav-item-container">
+        Profile
       </a>
       <a href="/courseContentApproval" className="nav-item-container">
         Course Approval
       </a>
     </div>
-  )
-}
+  );
+};
 
-export default AdminNavBar
+export default AdminNavBar;

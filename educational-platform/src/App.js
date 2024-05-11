@@ -15,8 +15,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AdminDashboard from "./Components/AdminDashboard";
 import Instructors from "./Components/Instructors";
 import AddInstructor from "./Components/AddInstructor";
+import CourseContent from "./Components/CourseContent";
+import AdminProfile from "./Components/AdminProfile";
+import AdminChangePassword from "./Components/AdminChangePassword";
 import CourseContentApproval from "./Components/CourseContentApproval";
 import Payment from "./Components/Payment";
+
 
 function App() {
   return (
@@ -31,6 +35,11 @@ function App() {
           <Route path="/addInstructor" element={<AddInstructor />} />
           <Route path="/courseContentApproval" element={<CourseContentApproval />} />
           <Route path="/insructorDashboard" element={<InstructorDashboard />} />
+          <Route path="/adminProfile" element={<AdminProfile />} />
+          <Route
+            path="/adminChangePassword"
+            element={<AdminChangePassword />}
+          />
           <Route path="/payment" element={<Payment />} />
         </Routes>
       </div>
