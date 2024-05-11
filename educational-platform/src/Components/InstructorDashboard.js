@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import "@fortawesome/fontawesome-free/css/all.css";
+import axios from "axios";
 
 const InstructorDashboard = () => {
   const [selectedNavItem, setSelectedNavItem] = useState("");
+
+  useEffect(() => {
+    verifyInsrtructor();
+  }, []);
 
   const handleNavItemClick = (itemName) => {
     setSelectedNavItem(itemName);
@@ -14,6 +19,33 @@ const InstructorDashboard = () => {
     { label: "In Progress", y: 30 },
     { label: "Not Started", y: 10 },
   ];
+
+  const verifyInsrtructor = async () => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      token: token,
+    };
+    await axios
+      .post(
+        `http://localhost:8081/api/instructors/verify`,
+        {},
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        if (res.data.message == "Authentication Successfull") {
+        } else {
+          alert("your session expired and you have been logged out");
+          window.location.href = "/";
+        }
+      })
+      .catch((err) => {
+        alert("You have been logged out");
+        window.location.href = "/";
+        console.log(err);
+      });
+  };
 
   // Define the options for the doughnut chart
   const options = {

@@ -24,10 +24,8 @@ import CourseContentApproval from "./Components/CourseContentApproval";
 import Payment from "./Components/Payment";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-import CourseContentApproval from "./Components/CourseContentApproval";
-import Payment from "./Components/Payment";
-
+import LearnerProfile from "./Components/LearnerProfile";
+import LearnerChangePassword from "./Components/LearnerChangePassword";
 
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
@@ -51,14 +49,12 @@ function App() {
       )
       .then((res) => {
         if (res.data.message == "Authentication Successfull") {
-          console.log("here");
-          setInstructorLogged((prevState) => true);
         } else {
-          setInstructorLogged((prevState) => false);
+          window.location.href = "/";
         }
       })
       .catch((err) => {
-        setInstructorLogged((prevState) => false);
+        window.location.href = "/";
         console.log(err);
       });
   };
@@ -77,14 +73,12 @@ function App() {
       )
       .then((res) => {
         if (res.data.message == "Authentication Successfull") {
-          console.log("here");
-          setLearnerLogged((prevState) => true);
         } else {
-          setLearnerLogged((prevState) => false);
+          window.location.href = "/";
         }
       })
       .catch((err) => {
-        setLearnerLogged((prevState) => false);
+        window.location.href = "/";
         console.log(err);
       });
   };
@@ -113,6 +107,11 @@ function App() {
           <Route path="/insructorDashboard" element={<InstructorDashboard />} />
 
           <Route path="/learnerDashboard" element={<LearnerDashboard />} />
+          <Route path="/learnerProfile" element={<LearnerProfile />} />
+          <Route
+            path="/learnerChangePassword"
+            element={<LearnerChangePassword />}
+          />
           <Route path="/payment" element={<Payment />} />
         </Routes>
       </div>
