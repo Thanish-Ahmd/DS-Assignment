@@ -17,6 +17,7 @@ exports.comparePasswords = async (password, hashedPassword) => {
     const match = await bcrypt.compare(password, hashedPassword);
     return match;
   } catch (error) {
+    console.log(error);
     throw new Error("Comparison failed");
   }
 };
