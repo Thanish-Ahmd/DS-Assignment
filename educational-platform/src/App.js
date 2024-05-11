@@ -16,6 +16,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AdminDashboard from "./Components/AdminDashboard";
 import Instructors from "./Components/Instructors";
 import AddInstructor from "./Components/AddInstructor";
+
 // import CourseContent from "./Components/CourseContent";
 import AdminProfile from "./Components/AdminProfile";
 import AdminChangePassword from "./Components/AdminChangePassword";
@@ -23,6 +24,10 @@ import CourseContentApproval from "./Components/CourseContentApproval";
 import Payment from "./Components/Payment";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+import CourseContentApproval from "./Components/CourseContentApproval";
+import Payment from "./Components/Payment";
+
 
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
@@ -92,14 +97,16 @@ function App() {
 
           <Route path="/instructors" element={<Instructors />} />
           <Route path="/addInstructor" element={<AddInstructor />} />
+
+          <Route path="/adminDashboard" element={<AdminDashboard />} />
+
           <Route
             path="/courseContentApproval"
             element={<CourseContentApproval />}
           />
-          <Route path="/adminDashboard" element={<AdminDashboard />} />
           <Route
-            path="/adminChangePassword"
-            element={<AdminChangePassword />}
+            path="/instructorDashboard"
+            element={<InstructorDashboard />}
           />
           <Route path="/adminProfile" element={<AdminProfile />} />
 

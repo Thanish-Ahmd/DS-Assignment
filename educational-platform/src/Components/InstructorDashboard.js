@@ -141,6 +141,46 @@ const InstructorDashboard = () => {
                         </div>
                       </div>
                     </div>
+                    <div className="mb-3 row">
+                      <label
+                        htmlFor="contentTitle"
+                        className="col-sm-2 col-form-label"
+                      >
+                        Duration:
+                      </label>
+                      <div className="col-sm-10">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="contentTitle"
+                          name="contentTitle"
+                          required
+                        />
+                        <div className="invalid-feedback">
+                          Please provide a duration.
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mb-3 row">
+                      <label
+                        htmlFor="contentTitle"
+                        className="col-sm-2 col-form-label"
+                      >
+                        Status:
+                      </label>
+                      <div className="col-sm-10">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="contentTitle"
+                          name="contentTitle"
+                          readOnly
+                        />
+                        <div className="invalid-feedback">
+                          Please provide a title.
+                        </div>
+                      </div>
+                    </div>
                     {/* Add more form fields as needed */}
                     <button type="submit" className="btn btn-primary me-md-2">
                       ADD

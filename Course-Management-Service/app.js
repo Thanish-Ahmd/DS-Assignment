@@ -10,6 +10,7 @@ const app = express();
 const logger = require("./middleware/logger");
 const courseRoutes = require("./routes/courses");
 const courseContentRoutes = require("./routes/courseContent");
+const courseMasterRoutes = require("./routes/courseMaster");
 
 // Parse JSON bodies
 app.use(bodyParser.json());
@@ -30,7 +31,7 @@ app.use(logger);
 // Routes
 app.use(courseRoutes);
 app.use(courseContentRoutes);
-
+app.use(courseMasterRoutes);
 // Start server
 const PORT = process.env.PORT || 8082;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
