@@ -33,7 +33,10 @@ function App() {
             path="/courseContentApproval"
             element={<CourseContentApproval />}
           />
-          <Route path="/insructorDashboard" element={<InstructorDashboard />} />
+          <Route
+            path="/instructorDashboard"
+            element={<InstructorDashboard />}
+          />
           <Route path="/payment" element={<Payment />} />
         </Routes>
       </div>
