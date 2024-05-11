@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const courseMasterSchema = new mongoose.Schema({
-  courseCode: {
+ /* courseCode: {
     type: String,
     required: true,
-  },
+  },*/
   courseName: {
     type: String,
     required: true,
