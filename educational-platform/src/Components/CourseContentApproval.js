@@ -72,10 +72,11 @@ const CourseContentApproval = () => {
           <thead className="table-warning">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Course Code</th>
               <th scope="col">Course Name</th>
+              <th scope="col">Title</th>
               <th scope="col">Content</th>
               <th scope="col">Duration</th>
+              <th scope="col">Timestamp</th>
               <th scope="col">Status</th>
               <th scope="col">Approval</th>
             </tr>
@@ -84,17 +85,18 @@ const CourseContentApproval = () => {
             {courseContents.map((courseContent, index) => (
               <tr key={index}>
                 <th scope="col">{index + 1}</th>
-                <td>{courseContent.courseCode}</td>
                 <td>{courseContent.courseName}</td>
+                <td>{courseContent.title}</td>
                 <td>{courseContent.content}</td>
                 <td>{courseContent.duration}</td>
+                <td>{courseContent.timestamps}</td>
                 <td>{courseContent.status}</td>
                 <td>
                   <button
                     className="btn btn-primary"
                     onClick={() => handleApprovalClick(courseContent)}
                   >
-                    Approve
+                    Approval
                   </button>
                 </td>
               </tr>
@@ -106,22 +108,22 @@ const CourseContentApproval = () => {
             <h4>Course Content Approval</h4>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Course Code:</label>
+                <label>Course Name:</label>
                 <input
                   type="text"
-                  name="courseCode"
-                  value={approvalFormData.courseCode}
+                  name="courseName"
+                  value={approvalFormData.courseName}
                   onChange={handleInputChange}
                   className="form-control"
                   readOnly
                 />
               </div>
               <div className="form-group">
-                <label>Course Name:</label>
+                <label>Title:</label>
                 <input
                   type="text"
-                  name="courseName"
-                  value={approvalFormData.courseName}
+                  name="title"
+                  value={approvalFormData.title}
                   onChange={handleInputChange}
                   className="form-control"
                   readOnly
@@ -144,6 +146,17 @@ const CourseContentApproval = () => {
                   type="text"
                   name="duration"
                   value={approvalFormData.duration}
+                  onChange={handleInputChange}
+                  className="form-control"
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label>Created At:</label>
+                <input
+                  type="text"
+                  name="timestamps"
+                  value={approvalFormData.timestamps}
                   onChange={handleInputChange}
                   className="form-control"
                   readOnly
