@@ -3,7 +3,7 @@ import React from "react";
 const AdminNavBar = () => {
   const logout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    window.location.href = "/";
   };
   return (
     <div className="col-md-2 navigation-container">

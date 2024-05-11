@@ -24,9 +24,8 @@ import CourseContentApproval from "./Components/CourseContentApproval";
 import Payment from "./Components/Payment";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-import CourseContentApproval from "./Components/CourseContentApproval";
-import Payment from "./Components/Payment";
+import LearnerProfile from "./Components/LearnerProfile";
+import LearnerChangePassword from "./Components/LearnerChangePassword";
 
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
@@ -108,6 +107,11 @@ function App() {
           <Route path="/insructorDashboard" element={<InstructorDashboard />} />
 
           <Route path="/learnerDashboard" element={<LearnerDashboard />} />
+          <Route path="/learnerProfile" element={<LearnerProfile />} />
+          <Route
+            path="/learnerChangePassword"
+            element={<LearnerChangePassword />}
+          />
           <Route path="/payment" element={<Payment />} />
         </Routes>
       </div>
