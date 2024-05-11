@@ -28,7 +28,6 @@ import axios from "axios";
 import CourseContentApproval from "./Components/CourseContentApproval";
 import Payment from "./Components/Payment";
 
-
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
   const [learnerLogged, setLearnerLogged] = useState(false);
@@ -51,14 +50,12 @@ function App() {
       )
       .then((res) => {
         if (res.data.message == "Authentication Successfull") {
-          console.log("here");
-          setInstructorLogged((prevState) => true);
         } else {
-          setInstructorLogged((prevState) => false);
+          window.location.href = "/";
         }
       })
       .catch((err) => {
-        setInstructorLogged((prevState) => false);
+        window.location.href = "/";
         console.log(err);
       });
   };
@@ -77,14 +74,12 @@ function App() {
       )
       .then((res) => {
         if (res.data.message == "Authentication Successfull") {
-          console.log("here");
-          setLearnerLogged((prevState) => true);
         } else {
-          setLearnerLogged((prevState) => false);
+          window.location.href = "/";
         }
       })
       .catch((err) => {
-        setLearnerLogged((prevState) => false);
+        window.location.href = "/";
         console.log(err);
       });
   };
