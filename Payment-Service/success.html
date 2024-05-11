@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <style>
+        /* Style for the alert */
+        .alert {
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            display: none; /* Hide the alert by default */
+        }
+
+        /* Style for the close button */
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* When hovering over the close button, change color */
+        .closebtn:hover {
+            color: black;
+        }
+
+        /* Style for the success box */
+        .success-box {
+            text-align: center;
+            border: 2px solid #4CAF50; /* Green border */
+            border-radius: 10px;
+            padding: 10px; /* Add some padding */
+            max-width: 400px; /* Set maximum width */
+            height: 300px;
+            margin: 0 auto; /
+        }
+
+        /* Style for the success message */
+        .success-message {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Alert container -->
+    <div class="alert" id="alert">
+        Payment successful! Thank you for Enrolling to this course.
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> <!-- Close button -->
+    </div>
+
+    <!-- Success box -->
+    <div class="success-box">
+        <p class="success-message">Your payment was successful!</p>
+        <p class="success-message">You have successfuly enrolled to the course.</p>
+        <p class="success-message">Enjoy Learning!</p>
+        <p class="success-message">*********************************</p>
+    </div>
+
+    <!-- JavaScript to display the alert when the page loads -->
+    <script>
+        window.onload = function() {
+            document.getElementById('alert').style.display = 'block'; // Display the alert
+        };
+    </script>
+</body>
+</html>
