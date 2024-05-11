@@ -14,9 +14,37 @@ const CourseContentApproval = () => {
   });
 
   useEffect(() => {
+    verifyAdmin();
     getAllCourseContent();
   }, []);
 
+  const verifyAdmin = async () => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      token: token,
+    };
+    await axios
+      .post(
+        `http://localhost:8081/api/admins/verify`,
+        {},
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        if (res.data.message == "Authentication Successfull") {
+        } else {
+          console.log(res.data);
+          alert("your session expired and you have been logged out");
+
+          window.location.href = "/";
+        }
+      })
+      .catch((err) => {
+        alert("You have been logged out");
+        window.location.href = "/";
+      });
+  };
   const getAllCourseContent = () => {
     axios
       .get(`http://localhost:8081/api/courseContent/`)
@@ -104,8 +132,22 @@ const CourseContentApproval = () => {
           </tbody>
         </table>
         {selectedCourse && (
+
+          <div
+            className="approval-form"
+            style={{
+              width: "50%",
+              border: "1px solid #ccc",
+              borderRadius: "10px",
+              padding: "20px",
+              margin: "auto",
+            }}
+          >
+            <h4>Approval Form</h4>
+
           <div className="approval-form" style={{ width: "50%" ,border: "1px solid #ccc", borderRadius:"10px", padding: "20px", margin: "auto" }}>
             <h4>Course Content Approval</h4>
+
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Course Name:</label>
