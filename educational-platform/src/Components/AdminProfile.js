@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminNavBar from "./AdminNavBar";
 import axios from "axios";
 
-const AddInstructor = () => {
+const AdminProfile = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [password, setPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const addInstructor = () => {
+  const updateAdmin = () => {
     const body = {
       firstName,
       lastName,
@@ -37,11 +38,42 @@ const AddInstructor = () => {
       alert("Passwords do not match each other");
     }
   };
+
+  const getAdminDetails = () => {
+    const token = localStorage.getItem("token");
+
+    if (token == null) {
+      window.location.href = "/login";
+    } else {
+      const headers = {
+        token: token,
+      };
+
+      axios
+        .get(`http://localhost:8081/api/admins/get`, {
+          headers: headers,
+        })
+        .then((res) => {
+          console.log(res.data.admin);
+          setEmail(res.data.admin[0].email);
+          setFirstName(res.data.admin[0].firstName);
+          setLastName(res.data.admin[0].lastName);
+          setPhoneNo(res.data.admin[0].phoneNo);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getAdminDetails();
+  }, []);
   return (
     <div className="row">
       <AdminNavBar />
       <div className="col-md-10">
-        <h3>Add Instructors</h3>
+        <h3>Admin Profile</h3>
         <form className="add-instructor-form">
           <div className="form-row">
             <div className="form-group">
@@ -52,35 +84,8 @@ const AddInstructor = () => {
                 id="inputEmail4"
                 name="email"
                 placeholder="Email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="inputPassword4">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="inputPassword4"
-                name="password"
-                placeholder="Password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="inputPassword4">Confirm Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="inputPassword4"
-                name="password"
-                placeholder="Password"
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                }}
+                defaultValue={email}
+                readOnly
               />
             </div>
           </div>
@@ -92,6 +97,7 @@ const AddInstructor = () => {
               id="inputFirstName"
               name="firstName"
               placeholder="First Name"
+              defaultValue={firstName}
               onChange={(e) => {
                 setFirstName(e.target.value);
               }}
@@ -105,6 +111,7 @@ const AddInstructor = () => {
               id="inputLastName"
               name="lastName"
               placeholder="Last Name"
+              defaultValue={lastName}
               onChange={(e) => {
                 setLastName(e.target.value);
               }}
@@ -118,8 +125,22 @@ const AddInstructor = () => {
               id="inputPhoneNo"
               name="phoneNo"
               placeholder="Phone No"
+              defaultValue={phoneNo}
               onChange={(e) => {
                 setPhoneNo(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputPassword4">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="inputPassword4"
+              name="password"
+              placeholder="New Password"
+              onChange={(e) => {
+                setPassword(e.target.value);
               }}
             />
           </div>{" "}
@@ -129,10 +150,10 @@ const AddInstructor = () => {
             className="btn btn-primary"
             onClick={(e) => {
               e.preventDefault();
-              addInstructor();
+              updateAdmin();
             }}
           >
-            Add Instructor
+            Update Admin Profile
           </button>
         </form>
       </div>
@@ -140,4 +161,4 @@ const AddInstructor = () => {
   );
 };
 
-export default AddInstructor;
+export default AdminProfile;

@@ -5,5 +5,8 @@ const instructorController = require("../controllers/InstructorController");
 // Define routes
 router.get("/api/instructors/", instructorController.getAllInstructors);
 router.post("/api/instructors/add", instructorController.addInstructor);
+router.post("/api/instructors/login", instructorController.instructorLogin);
+router.post("/api/instructors/verify", instructorController.verifyInstructor);
+router.delete("/api/instructors/delete", instructorController.deleteInstructor);
 
 module.exports = router;

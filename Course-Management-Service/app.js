@@ -9,6 +9,7 @@ const app = express();
 
 const logger = require("./middleware/logger");
 const courseRoutes = require("./routes/courses");
+const courseContentRoutes = require("./routes/courseContent");
 
 // Parse JSON bodies
 app.use(bodyParser.json());
@@ -19,7 +20,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose
-  .connect(process.env.MONGODB_URL)
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("Database Connected"))
   .catch((err) => console.log(err));
 
@@ -28,7 +29,8 @@ app.use(logger);
 
 // Routes
 app.use(courseRoutes);
+app.use(courseContentRoutes);
 
 // Start server
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8082;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
