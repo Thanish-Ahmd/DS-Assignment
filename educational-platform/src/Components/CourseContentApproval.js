@@ -103,7 +103,7 @@ const CourseContentApproval = () => {
         </table>
         {selectedCourse && (
           <div className="approval-form" style={{ width: "50%" ,border: "1px solid #ccc", borderRadius:"10px", padding: "20px", margin: "auto" }}>
-            <h4>Approval Form</h4>
+            <h4>Course Content Approval</h4>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Course Code:</label>
