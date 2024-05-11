@@ -16,6 +16,8 @@ import AdminDashboard from "./Components/AdminDashboard";
 import Instructors from "./Components/Instructors";
 import AddInstructor from "./Components/AddInstructor";
 import CourseContent from "./Components/CourseContent";
+import AdminProfile from "./Components/AdminProfile";
+import AdminChangePassword from "./Components/AdminChangePassword";
 
 function App() {
   return (
@@ -30,7 +32,11 @@ function App() {
           <Route path="/addInstructor" element={<AddInstructor />} />
           <Route path="/courseContent" element={<CourseContent />} />
           <Route path="/insructorDashboard" element={<InstructorDashboard />} />
-
+          <Route path="/adminProfile" element={<AdminProfile />} />
+          <Route
+            path="/adminChangePassword"
+            element={<AdminChangePassword />}
+          />
         </Routes>
       </div>
     </BrowserRouter>

@@ -176,3 +176,46 @@ exports.deleteAdmin = async (req, res) => {
       res.status(200).send({ message: "Error in deleting", error: err });
     });
 };
+
+exports.changePassword = async (req, res) => {
+  const token = req.headers.token;
+  const { oldPassword, password } = req.body;
+
+  const updatedPassword = {
+    password: password,
+  };
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "admin") {
+          const admin = await Admin.find({ email: decoded.email });
+
+          if (comparePasswords(oldPassword, admin.password)) {
+            await Admin.findOneAndUpdate(
+              { email: decoded.email },
+              updatedPassword
+            )
+              .then((rs) => {
+                res
+                  .status(200)
+                  .send({ admin: rs.data, message: "Password changed" });
+              })
+              .catch((err) => {
+                res.status(200).send({ message: "Error in changing password" });
+              });
+          }
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
