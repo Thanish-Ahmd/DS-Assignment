@@ -9,5 +9,6 @@ router.post("/api/learners/add", learnerController.addLearner);
 router.post("/api/learners/login", learnerController.userLogin);
 router.post("/api/learners/verify", learnerController.verifyLearner);
 router.delete("/api/learners/delete", learnerController.deleteLearner);
+router.get("/api/learners/get", learnerController.getLearner);
 
 module.exports = router;

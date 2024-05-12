@@ -13,6 +13,7 @@ const AdminProfile = () => {
 
   useEffect(() => {
     verifyAdmin();
+    getAdminDetails();
   }, []);
   const verifyAdmin = async () => {
     const token = localStorage.getItem("token");
@@ -99,9 +100,6 @@ const AdminProfile = () => {
     }
   };
 
-  useEffect(() => {
-    getAdminDetails();
-  }, []);
   return (
     <div className="row">
       <AdminNavBar />
@@ -171,7 +169,7 @@ const AdminProfile = () => {
               className="form-control"
               id="inputPassword4"
               name="password"
-              placeholder="New Password"
+              placeholder="Password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
