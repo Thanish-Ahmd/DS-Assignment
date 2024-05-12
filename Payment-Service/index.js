@@ -11,7 +11,7 @@ paypal.configure({
     "EGNCtnhrdwzLKDuSXZh3xR8PMChdQO4g2JASIC3gba3YQ75xc8TJQft2a_mwO9bbrraEHT96JC-_5BPs",
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8084;
 const app = express();
 
 app.use(cors());
@@ -24,8 +24,8 @@ app.post("/pay", (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel",
+      return_url: "http://localhost:8084/success",
+      cancel_url: "http://localhost:8084/cancel",
     },
     transactions: [
       {
