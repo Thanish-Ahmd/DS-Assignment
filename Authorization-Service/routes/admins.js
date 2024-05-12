@@ -10,5 +10,6 @@ router.post("/api/admins/verify", adminController.verifyAdmin);
 router.put("/api/admins/update", adminController.updateAdmin);
 router.delete("/api/admins/delete", adminController.deleteAdmin);
 router.get("/api/admins/get", adminController.getAdmin);
+router.post("/api/admins/changePassword", adminController.changePassword);
 
 module.exports = router;

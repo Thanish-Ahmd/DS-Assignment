@@ -1,10 +1,82 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminNavBar from "./AdminNavBar";
+import axios from "axios";
 
 const AdminChangePassword = () => {
   const [password, setPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    verifyAdmin();
+  }, []);
+
+  const verifyAdmin = async () => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      token: token,
+    };
+    await axios
+      .post(
+        `http://localhost:8081/api/admins/verify`,
+        {},
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        if (res.data.message == "Authentication Successfull") {
+        } else {
+          console.log(res.data);
+          alert("your session expired and you have been logged out");
+
+          window.location.href = "/";
+        }
+      })
+      .catch((err) => {
+        alert("You have been logged out");
+        window.location.href = "/";
+      });
+  };
+
+  const changePassword = () => {
+    const body = {
+      password,
+      oldPassword,
+    };
+    const token = localStorage.getItem("token");
+
+    if (token == null) {
+      window.location.href = "/login";
+    } else {
+      const headers = {
+        token: token,
+      };
+      if (password == confirmPassword) {
+        axios
+          .post(`http://localhost:8081/api/admins/changePassword`, body, {
+            headers: headers,
+          })
+          .then((res) => {
+            if (res.data.message == "Password changed") {
+              alert("Password changed");
+              window.location.reload();
+            } else if (res.data.message == "Error in changing password") {
+              alert("Error in changing password");
+            } else if (res.data.message == "Incorrect Password") {
+              alert("Incorrect Password");
+            }
+          })
+          .catch((err) => {
+            alert("Error occured!!");
+            console.log(err);
+          });
+      } else {
+        alert("Passwords do not match eachother!");
+      }
+    }
+  };
+
   return (
     <div className="row">
       <AdminNavBar />
@@ -56,6 +128,7 @@ const AdminChangePassword = () => {
             className="btn btn-primary"
             onClick={(e) => {
               e.preventDefault();
+              changePassword();
             }}
           >
             Change Password
