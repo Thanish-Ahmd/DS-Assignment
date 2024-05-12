@@ -213,7 +213,7 @@ const CourseContentApproval = () => {
                   <option value="Approved">Approved</option>
                   <option value="Rejected">Rejected</option>
                 </select>
-
+              </div>
               <div
                 className="approval-form"
                 style={{
