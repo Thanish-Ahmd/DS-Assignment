@@ -145,7 +145,6 @@ const CourseContentApproval = () => {
             <h4>Approval Form</h4>
 
             <form onSubmit={handleSubmit}>
-
               <div className="form-group">
                 <label>Course Name:</label>
                 <input
@@ -209,11 +208,12 @@ const CourseContentApproval = () => {
                   onChange={handleInputChange}
                   className="form-control"
                 >
-                  <option value="Pending" >Pending</option>
+                  <option value="Pending">Pending</option>
                   <option value="Approved">Approved</option>
                   <option value="Rejected">Rejected</option>
                 </select>
               </div>
+
               <br/>
               <button type="submit" className="btn btn-success">
                   Submit

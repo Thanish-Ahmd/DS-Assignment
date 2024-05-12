@@ -26,6 +26,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import LearnerProfile from "./Components/LearnerProfile";
 import LearnerChangePassword from "./Components/LearnerChangePassword";
+import AllAdmins from "./Components/AllAdmins";
 
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
@@ -90,9 +91,14 @@ function App() {
           <Route path="/signup" element={<Signup />} />
 
           <Route path="/instructors" element={<Instructors />} />
+          <Route path="/allAdmins" element={<AllAdmins />} />
           <Route path="/addInstructor" element={<AddInstructor />} />
 
           <Route path="/adminDashboard" element={<AdminDashboard />} />
+          <Route
+            path="/adminChangePassword"
+            element={<AdminChangePassword />}
+          />
 
           <Route
             path="/courseContentApproval"
