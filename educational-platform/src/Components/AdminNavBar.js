@@ -13,7 +13,7 @@ const AdminNavBar = () => {
       <a href="/instructors" className="nav-item-container">
         Instructors
       </a>
-      <a href="" className="nav-item-container">
+      <a href="/allAdmins" className="nav-item-container">
         Admins
       </a>
       <a href="/adminProfile" className="nav-item-container">
