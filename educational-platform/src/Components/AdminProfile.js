@@ -11,6 +11,37 @@ const AdminProfile = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  useEffect(() => {
+    verifyAdmin();
+  }, []);
+  const verifyAdmin = async () => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      token: token,
+    };
+    await axios
+      .post(
+        `http://localhost:8081/api/admins/verify`,
+        {},
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        if (res.data.message == "Authentication Successfull") {
+        } else {
+          console.log(res.data);
+          alert("your session expired and you have been logged out");
+
+          window.location.href = "/";
+        }
+      })
+      .catch((err) => {
+        alert("You have been logged out");
+        window.location.href = "/";
+      });
+  };
+
   const updateAdmin = () => {
     const body = {
       firstName,
@@ -19,23 +50,25 @@ const AdminProfile = () => {
       password,
       phoneNo,
     };
-    if (password == confirmPassword) {
+    if (password != "") {
       axios
-        .post(`http://localhost:8081/api/instructors/add`, body)
+        .put(`http://localhost:8081/api/admins/update`, body)
         .then((res) => {
-          if (res.data.message == "Email already exist") {
-            alert("Email already exist");
-          } else if (res.data.message == "Instructor added") {
-            alert("Instrcutor added");
-            window.location.href = "/instructors";
+          if (res.data.message == "Admin Updated") {
+            alert("Updated Successfully");
+            window.location.reload();
+          } else if (res.data.message == "Error in updating") {
+            alert("Error in updating");
+          } else if (res.data.message == "Incorrect Password") {
+            alert("Incorrect password");
           }
         })
         .catch((err) => {
           console.log(err);
-          alert("Could no add the instructor");
+          alert("Could no add update the admin");
         });
     } else {
-      alert("Passwords do not match each other");
+      alert("Please Enter the password");
     }
   };
 
@@ -43,7 +76,7 @@ const AdminProfile = () => {
     const token = localStorage.getItem("token");
 
     if (token == null) {
-      window.location.href = "/login";
+      window.location.href = "/";
     } else {
       const headers = {
         token: token,

@@ -152,17 +152,22 @@ exports.updateAdmin = async (req, res) => {
   const updateAdmin = {
     firstName,
     lastName,
-    password,
+    email,
     phoneNo,
   };
+  const admin = await Admin.findOne({ email: email });
 
-  await Admin.findOneAndUpdate({ email: email }, updateAdmin)
-    .then((rs) => {
-      res.status(200).send({ message: "Instructor Updated", admin: rs });
-    })
-    .catch((err) => {
-      res.status(200).send({ message: "Error in updating", error: err });
-    });
+  if (await comparePasswords(password, admin.password)) {
+    await Admin.findOneAndUpdate({ email: email }, updateAdmin)
+      .then((rs) => {
+        res.status(200).send({ message: "Admin Updated", admin: rs });
+      })
+      .catch((err) => {
+        res.status(200).send({ message: "Error in updating", error: err });
+      });
+  } else {
+    res.status(200).send({ message: "Incorrect Password" });
+  }
 };
 
 exports.deleteAdmin = async (req, res) => {
@@ -180,18 +185,20 @@ exports.deleteAdmin = async (req, res) => {
 exports.changePassword = async (req, res) => {
   const token = req.headers.token;
   const { oldPassword, password } = req.body;
+  const hashedPassword = await hashPassword(password);
 
   const updatedPassword = {
-    password: password,
+    password: hashedPassword,
   };
 
   try {
     verifyToken(token)
       .then(async (decoded) => {
         if (decoded.type == "admin") {
-          const admin = await Admin.find({ email: decoded.email });
-
-          if (comparePasswords(oldPassword, admin.password)) {
+          console.log(decoded.email);
+          const admin = await Admin.findOne({ email: decoded.email });
+          const match = await comparePasswords(oldPassword, admin.password);
+          if (match) {
             await Admin.findOneAndUpdate(
               { email: decoded.email },
               updatedPassword
@@ -202,8 +209,13 @@ exports.changePassword = async (req, res) => {
                   .send({ admin: rs.data, message: "Password changed" });
               })
               .catch((err) => {
+                console.log(err);
                 res.status(200).send({ message: "Error in changing password" });
               });
+          } else {
+            res.status(200).send({
+              message: "Incorrect Password",
+            });
           }
         } else {
           res.status(200).send({

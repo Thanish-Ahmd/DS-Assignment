@@ -1,13 +1,13 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AdminNavBar from "./AdminNavBar";
-import axios from "axios";
 
-const Instructors = () => {
-  const [instructors, setInstructors] = useState([]);
+const AllAdmins = () => {
+  const [admins, setAdmins] = useState([]);
 
   useEffect(() => {
     verifyAdmin();
-    getAllInstrcutors();
+    getAllAdmins();
   }, []);
 
   const verifyAdmin = async () => {
@@ -38,11 +38,11 @@ const Instructors = () => {
       });
   };
 
-  const getAllInstrcutors = () => {
+  const getAllAdmins = () => {
     axios
-      .get(`http://localhost:8081/api/instructors/`)
+      .get(`http://localhost:8081/api/admins/`)
       .then((res) => {
-        setInstructors(res.data.instructors);
+        setAdmins(res.data.admins);
       })
       .catch((err) => {
         console.log(err);
@@ -53,8 +53,8 @@ const Instructors = () => {
       <AdminNavBar />
       <div className="col-md-10">
         <h3>All Instructors</h3>
-        <a href="/addInstructor" className="btn btn-success">
-          Add Instructor{" "}
+        <a href="/addAdmin" className="btn btn-success">
+          Add Admin{" "}
         </a>
         <table class="table table-instrcutor">
           <thead class="table-warning">
@@ -67,14 +67,14 @@ const Instructors = () => {
               <th scope="col">Courses</th>
             </tr>
           </thead>
-          {instructors.map((instructor, index) => (
+          {admins.map((admin, index) => (
             <tr>
               <th scope="col">{index + 1}</th>
-              <td>{instructor.firstName}</td>
-              <td>{instructor.lastName}</td>
-              <td>{instructor.email}</td>
-              <td>{instructor.phoneNo}</td>
-              <td>{instructor.courses}</td>
+              <td>{admin.firstName}</td>
+              <td>{admin.lastName}</td>
+              <td>{admin.email}</td>
+              <td>{admin.phoneNo}</td>
+              <td>{}</td>
             </tr>
           ))}
         </table>
@@ -83,4 +83,4 @@ const Instructors = () => {
   );
 };
 
-export default Instructors;
+export default AllAdmins;
