@@ -6,8 +6,8 @@ const CourseContentApproval = () => {
   const [courseContents, setCourseContents] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [approvalFormData, setApprovalFormData] = useState({
-    courseCode: "",
     courseName: "",
+    title: "",
     content: "",
     duration: "",
     status: "",
@@ -47,7 +47,7 @@ const CourseContentApproval = () => {
   };
   const getAllCourseContent = () => {
     axios
-      .get(`http://localhost:8081/api/courseContent/`)
+      .get(`http://localhost:8082/api/courseContent/`)
       .then((res) => {
         setCourseContents(res.data.courseContents);
       })
@@ -76,7 +76,7 @@ const CourseContentApproval = () => {
     // Send updated data to backend
     axios
       .put(
-        `http://localhost:8081/api/courseContent/${selectedCourse._id}`,
+        `http://localhost:8082/api/courseContent/${selectedCourse._id}`,
         approvalFormData
       )
       .then((res) => {
@@ -104,7 +104,7 @@ const CourseContentApproval = () => {
               <th scope="col">Title</th>
               <th scope="col">Content</th>
               <th scope="col">Duration</th>
-              <th scope="col">Timestamp</th>
+              {/* <th scope="col">Timestamp</th> */}
               <th scope="col">Status</th>
               <th scope="col">Approval</th>
             </tr>
@@ -117,7 +117,7 @@ const CourseContentApproval = () => {
                 <td>{courseContent.title}</td>
                 <td>{courseContent.content}</td>
                 <td>{courseContent.duration}</td>
-                <td>{courseContent.timestamps}</td>
+                {/* <td>{courseContent.timestamps}</td> */}
                 <td>{courseContent.status}</td>
                 <td>
                   <button
@@ -145,6 +145,75 @@ const CourseContentApproval = () => {
             <h4>Approval Form</h4>
 
             <form onSubmit={handleSubmit}>
+
+              <div className="form-group">
+                <label>Course Name:</label>
+                <input
+                  type="text"
+                  name="courseName"
+                  value={approvalFormData.courseName}
+                  onChange={handleInputChange}
+                  className="form-control"
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label>Title:</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={approvalFormData.title}
+                  onChange={handleInputChange}
+                  className="form-control"
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label>Content:</label>
+                <input
+                  type="text"
+                  name="content"
+                  value={approvalFormData.content}
+                  onChange={handleInputChange}
+                  className="form-control"
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label>Duration:</label>
+                <input
+                  type="text"
+                  name="duration"
+                  value={approvalFormData.duration}
+                  onChange={handleInputChange}
+                  className="form-control"
+                  readOnly
+                />
+              </div>
+              {/* <div className="form-group">
+                <label>Created At:</label>
+                <input
+                  type="text"
+                  name="timestamps"
+                  value={approvalFormData.timestamps}
+                  onChange={handleInputChange}
+                  className="form-control"
+                  readOnly
+                />
+              </div> */}
+              <div className="form-group">
+                <label>Status:</label>
+                <select
+                  name="status"
+                  value={approvalFormData.status}
+                  onChange={handleInputChange}
+                  className="form-control"
+                >
+                  <option value="Pending" >Pending</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+
               <div
                 className="approval-form"
                 style={{
