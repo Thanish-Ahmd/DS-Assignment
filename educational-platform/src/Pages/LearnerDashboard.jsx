@@ -114,6 +114,13 @@ const LearnerDashboard = () => {
     setEnrolCourse(e.target.value);
   };
 
+  const navigateToEnrollement = (courseData) => {
+    // Navigate to the enrollement.js page and pass the course data as a parameter
+    // For example, you can use window.location.href to navigate
+    window.location.href = `/enrollement?courseCode=${courseData.courseCode}&courseName=${courseData.courseName}&coursePrice=${courseData.price}`;
+  };
+  
+
   return (
     <div className="flex flex-row w-full p-[1%] h-screen gap-[1%]">
       <div className='w-[15%] bg-purple-600 flex flex-col h-full rounded-2xl py-3 gap-4 shadow-lg'>
@@ -134,7 +141,7 @@ const LearnerDashboard = () => {
         <div className='flex flex-col gap-3'>
           <text className='text-slate-700 font-bold text-lg'>Enrolled Courses</text>
           <div className='flex flex-row gap-2'>
-            <CourseCards courses={availableCourses}/>
+            <CourseCards courses={availableCourses} navigateToEnrollement={navigateToEnrollement}/>
           </div>
         </div>
       </div>

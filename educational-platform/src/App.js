@@ -26,6 +26,7 @@ import axios from "axios";
 import LearnerProfile from "./Components/LearnerProfile";
 import LearnerChangePassword from "./Components/LearnerChangePassword";
 import AllAdmins from "./Components/AllAdmins";
+import CourseEnrollement from "./Components/CourseEnrollement";
 
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
@@ -119,6 +120,7 @@ function App() {
             element={<LearnerChangePassword />}
           />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/enrollement" element={<CourseEnrollement />} />
         </Routes>
       </div>
     </BrowserRouter>
