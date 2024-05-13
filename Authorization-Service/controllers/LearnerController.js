@@ -103,7 +103,7 @@ exports.sendOTP = async (req, res) => {
 exports.userLogin = async (req, res) => {
   const { email, password } = req.body;
   const learner = await Learner.findOne({ email: email });
-  
+
   try {
     if (learner) {
       const match = await comparePasswords(password, learner.password);
@@ -183,11 +183,12 @@ exports.getLearner = async (req, res) => {
 exports.updateLearner = async (req, res) => {
   const { firstName, lastName, password, email } = req.body;
 
+  const hashedPassword = await hashPassword(password);
   const updateLearner = {
     firstName,
     lastName,
     email,
-    password,
+    password: hashedPassword,
   };
 
   await Learner.findOneAndUpdate({ email: email }, updateLearner)
@@ -211,7 +212,6 @@ exports.deleteLearner = async (req, res) => {
     });
 };
 
-
 exports.changePassword = async (req, res) => {
   const token = req.headers.token;
   const { oldPassword, password } = req.body;
@@ -225,7 +225,7 @@ exports.changePassword = async (req, res) => {
     verifyToken(token)
       .then(async (decoded) => {
         if (decoded.type == "learner") {
-          console.log(decoded.email);
+          console.log(oldPassword);
           const learner = await Learner.findOne({ email: decoded.email });
           const match = await comparePasswords(oldPassword, learner.password);
           if (match) {
