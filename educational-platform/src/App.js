@@ -27,6 +27,8 @@ import LearnerProfile from "./Components/LearnerProfile";
 import LearnerChangePassword from "./Components/LearnerChangePassword";
 import AllAdmins from "./Components/AllAdmins";
 import CourseEnrollement from "./Components/CourseEnrollement";
+import LearnerCourses from "./Components/LearnerCourses";
+import AllCourses from "./Components/AllCourses";
 
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
@@ -119,6 +121,8 @@ function App() {
             path="/learnerChangePassword"
             element={<LearnerChangePassword />}
           />
+          <Route path="/myCourses" element={<LearnerCourses />} />
+          <Route path="/allCourses" element={<AllCourses />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/enrollement" element={<CourseEnrollement />} />
         </Routes>

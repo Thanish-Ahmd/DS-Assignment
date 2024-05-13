@@ -151,10 +151,11 @@ exports.getInstructor = async (req, res) => {
 exports.updateInstructor = async (req, res) => {
   const { firstName, lastName, password, phoneNo, email } = req.body;
 
+  const hashedPassword = await hashPassword(password);
   const updateInstructor = {
     firstName,
     lastName,
-    password,
+    password: hashedPassword,
     phoneNo,
   };
 
@@ -166,7 +167,6 @@ exports.updateInstructor = async (req, res) => {
       res.status(200).send({ message: "Error in updating", error: err });
     });
 };
-
 
 exports.deleteInstructor = async (req, res) => {
   const { email } = req.body;
