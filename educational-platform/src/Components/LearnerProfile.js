@@ -103,7 +103,7 @@ const LearnerProfile = () => {
     <div className="row">
       <LearnerNavBar />
       <div className="col-md-10">
-        <h3>Admin Profile</h3>
+        <h3>Learner Profile</h3>
         <form className="add-instructor-form">
           <div className="form-row">
             <div className="form-group">
@@ -148,20 +148,6 @@ const LearnerProfile = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="inputPhoneNo">Phone No</label>
-            <input
-              type="number"
-              className="form-control"
-              id="inputPhoneNo"
-              name="phoneNo"
-              placeholder="Phone No"
-              defaultValue={phoneNo}
-              onChange={(e) => {
-                setPhoneNo(e.target.value);
-              }}
-            />
-          </div>
-          <div className="form-group">
             <label htmlFor="inputPassword4">Password</label>
             <input
               type="password"
@@ -183,7 +169,7 @@ const LearnerProfile = () => {
               updateLearner();
             }}
           >
-            Update Admin Profile
+            Update Learner Profile
           </button>
         </form>
       </div>

@@ -103,6 +103,7 @@ exports.sendOTP = async (req, res) => {
 exports.userLogin = async (req, res) => {
   const { email, password } = req.body;
   const learner = await Learner.findOne({ email: email });
+  
   try {
     if (learner) {
       const match = await comparePasswords(password, learner.password);
@@ -185,6 +186,7 @@ exports.updateLearner = async (req, res) => {
   const updateLearner = {
     firstName,
     lastName,
+    email,
     password,
   };
 
@@ -207,4 +209,55 @@ exports.deleteLearner = async (req, res) => {
     .catch((err) => {
       res.status(200).send({ message: "Error in deleting", error: err });
     });
+};
+
+
+exports.changePassword = async (req, res) => {
+  const token = req.headers.token;
+  const { oldPassword, password } = req.body;
+  const hashedPassword = await hashPassword(password);
+
+  const updatedPassword = {
+    password: hashedPassword,
+  };
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "learner") {
+          console.log(decoded.email);
+          const learner = await Learner.findOne({ email: decoded.email });
+          const match = await comparePasswords(oldPassword, learner.password);
+          if (match) {
+            await Learner.findOneAndUpdate(
+              { email: decoded.email },
+              updatedPassword
+            )
+              .then((rs) => {
+                res
+                  .status(200)
+                  .send({ learner: rs.data, message: "Password changed" });
+              })
+              .catch((err) => {
+                console.log(err);
+                res.status(200).send({ message: "Error in changing password" });
+              });
+          } else {
+            res.status(200).send({
+              message: "Incorrect Password",
+            });
+          }
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
