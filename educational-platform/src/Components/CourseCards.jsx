@@ -1,7 +1,7 @@
 import React from 'react'
 import { GiBookCover } from "react-icons/gi";
 
-const CourseCards = ({ courses }) => {
+const CourseCards = ({ courses,  navigateToEnrollement }) => {
   const data = courses
 
   const iconColours = [
@@ -15,7 +15,7 @@ const CourseCards = ({ courses }) => {
       <div 
         key={course.courseCode}
         // implement a callback function here to navigate to the respective course page once you click the card
-        // onClick={() => {}}
+        onClick={() => navigateToEnrollement(course)}
         className='flex flex-col px-2 py-2.5 w-[150px] rounded-lg border-slate-300 border shadow-sm cursor-pointer'
       >
         <GiBookCover size={100} color={iconColours[index % iconColours.length].color} className={`self-center w-full rounded-md ${iconColours[index % iconColours.length].gradient} mb-1`}/>
