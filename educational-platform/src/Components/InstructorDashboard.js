@@ -23,7 +23,7 @@ const InstructorDashboard = () => {
     const fetchCourseNames = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8082/api/courseMaster/all"
+          "http://localhost:8082/api/courseMaster/names"
         );
         setCourseNames(response.data);
       } catch (error) {
@@ -91,6 +91,72 @@ const InstructorDashboard = () => {
 
   const handleFileChange = (event) => {
     setFormData({ ...formData, content: event.target.files[0] });
+  };
+
+  const handleDelete = async (id) => {
+    // Ask for confirmation before deleting
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this course content?"
+    );
+
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:8082/api/courseContent/${id}`);
+        // Remove the deleted course content from the state
+        setCourseContents(
+          courseContents.filter((content) => content._id !== id)
+        );
+        console.log("Course content deleted successfully");
+      } catch (error) {
+        console.error("Error deleting course content:", error);
+      }
+    }
+  };
+
+  const [editFormData, setEditFormData] = useState({
+    courseName: "",
+    title: "",
+    duration: "",
+  });
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editContentId, setEditContentId] = useState(null);
+
+  const handleEdit = (content) => {
+    setEditFormData({
+      courseName: content.courseName,
+      title: content.title,
+      duration: content.duration,
+    });
+    setIsEditing(true);
+    setEditContentId(content._id);
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await axios.put(
+        `http://localhost:8082/api/courseContent/${editContentId}`,
+        editFormData
+      );
+      // Update the course content in the state
+      setCourseContents(
+        courseContents.map((content) => {
+          if (content._id === editContentId) {
+            return {
+              ...content,
+              courseName: editFormData.courseName,
+              title: editFormData.title,
+              duration: editFormData.duration,
+            };
+          }
+          return content;
+        })
+      );
+      setIsEditing(false);
+      console.log("Course content updated successfully");
+    } catch (error) {
+      console.error("Error updating course content:", error);
+    }
   };
 
   const options = {
@@ -328,15 +394,18 @@ const InstructorDashboard = () => {
                                   >
                                     View PDF
                                   </a>
+
                                   <button
                                     type="button"
                                     className="btn btn-success"
+                                    onClick={() => handleEdit(content)}
                                   >
                                     UPDATE
                                   </button>
                                   <button
                                     type="button"
                                     className="btn btn-danger"
+                                    onClick={() => handleDelete(content._id)}
                                   >
                                     DELETE
                                   </button>
@@ -351,6 +420,54 @@ const InstructorDashboard = () => {
                 </div>
               </div>
             </div>
+            {isEditing && (
+              <div style = {{ marginLeft: '250px',}}>
+                <input
+                  type="text"
+                  value={editFormData.courseName}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      courseName: e.target.value,
+                    })
+                  }
+                />
+                <input
+                  type="text"
+                  value={editFormData.title}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      title: e.target.value,
+                    })
+                  }
+                />
+                <input
+                  type="text"
+                  value={editFormData.duration}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      duration: e.target.value,
+                    })
+                  }
+                />
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={handleUpdate}
+                >
+                  SAVE
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => setIsEditing(false)}
+                >
+                  CANCEL
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

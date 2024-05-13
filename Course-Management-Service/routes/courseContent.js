@@ -23,4 +23,6 @@ router.post(
   courseContentController.addCourseContent
 );
 
+router.delete("/api/courseContent/:id", courseContentController.deleteCourseContent);
+
 module.exports = router;

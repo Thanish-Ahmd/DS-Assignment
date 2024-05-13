@@ -81,3 +81,18 @@ exports.updateCourseContent = async (req, res) => {
     res.status(500).json({ message: "Failed to update content" });
   }
 };
+
+// DELETE method to delete course content
+exports.deleteCourseContent = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedCourse = await CourseContent.findByIdAndDelete(id);
+    if (!deletedCourse) {
+      return res.status(404).json({ message: "Course content not found" });
+    }
+    res.status(200).json({ message: "Course content deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting course content:", error);
+    res.status(500).json({ message: "Failed to delete content" });
+  }
+};
