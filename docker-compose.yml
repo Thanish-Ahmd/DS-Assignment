@@ -24,6 +24,14 @@ services:
       - "8085:8085"
     depends_on:
       - mongo
+  payment-service:
+    container_name: payment-service-container
+    restart: always
+    build: ./Payment-Service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mongo
   mongo:
     container_name: mongo-backend
     image: mongo

@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: authorization-container
-          image: your.private.registry.com/ds-assignment-authorization:latest # Replace with your Docker image
+          image: thanishahamed433/ds-assignment-authorization:latest # Replace with your Docker image
           ports:
             - containerPort: 8081
 ---
@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
         - name: course-management-container
-          image: ds-assignment/ds-assignment-course-management-service:latest # Replace with your Docker image
+          image: thanishahamed433/ds-assignment-course-management-service:latest # Replace with your Docker image
           ports:
             - containerPort: 8082
 ---
@@ -90,7 +90,7 @@ spec:
     spec:
       containers:
         - name: learner-management-container
-          image: ds-assignment/ds-assignment-learner-management-service:latest # Replace with your Docker image
+          image: thanishahamed433/ds-assignment-learner-management-service:latest # Replace with your Docker image
           ports:
             - containerPort: 8085
 ---
@@ -160,6 +160,6 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: ds-assignment/ds-assignment-frontend-service:latest # Replace with your Docker image
+          image: thanishahamed433/ds-assignment-frontend-service:latest # Replace with your Docker image
           ports:
             - containerPort: 3000
