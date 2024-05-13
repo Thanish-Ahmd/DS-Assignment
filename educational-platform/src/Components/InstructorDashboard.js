@@ -12,129 +12,60 @@ const InstructorDashboard = () => {
   const [progressData, setProgressData] = useState([]);
 
   useEffect(() => {
-    if (selectedCourse) {
-      axios
-        .get(`http://localhost:8082/api/studentProgress/${selectedCourse}`)
-        .then((response) => {
-          setStudentCount(response.data.studentCount);
-          setProgressData(response.data.progressData);
-        })
-        .catch((error) => {
-          console.error("Error fetching student progress:", error);
-        });
-    }
-  }, [selectedCourse]);
-
-  useEffect(() => {
-    // Fetch course content data from the backend
-    axios
-      .get("http://localhost:8082/api/courseContent")
-      .then((response) => {
-        setCourseContents(response.data.courseContents);
-      })
-      .catch((error) => {
-        console.error("Error fetching course content:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8082/api/courseMaster/all")
-      .then((response) => {
+    const fetchCourseNames = async () => {
+      try {
+        const response = await axios.get("http://localhost:8082/api/courseMaster/all");
         setCourseNames(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching course names:", error);
-      });
+      }
+    };
+    fetchCourseNames();
   }, []);
 
   useEffect(() => {
-    verifyInsrtructor();
+    const fetchCourseContents = async () => {
+      try {
+        const response = await axios.get("http://localhost:8082/api/courseContent");
+        setCourseContents(response.data.courseContents);
+      } catch (error) {
+        console.error("Error fetching course content:", error);
+      }
+    };
+    fetchCourseContents();
+  }, []);
+
+  useEffect(() => {
+    const verifyInstructor = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const headers = { token: token };
+        const response = await axios.post("http://localhost:8081/api/instructors/verify", {}, { headers: headers });
+        if (response.data.message !== "Authentication Successful") {
+          alert("Your session has expired, and you have been logged out");
+          window.location.href = "/";
+        }
+      } catch (error) {
+        console.error("Error verifying instructor:", error);
+        alert("You have been logged out");
+        window.location.href = "/";
+      }
+    };
+    verifyInstructor();
   }, []);
 
   const handleNavItemClick = (itemName) => {
     setSelectedNavItem(itemName);
   };
 
-  // const sampleData = [
-  //   { label: "Completed", y: 60 },
-  //   { label: "In Progress", y: 30 },
-  //   { label: "Not Started", y: 10 },
-  // ];
-
-  // const options = {
-  //   animationEnabled: true,
-  //   title: {
-  //     text: "Learner Progress Overview",
-  //   },
-  //   data: [
-  //     {
-  //       type: "pie",
-  //       startAngle: 60,
-  //       toolTipContent: "<b>{label}</b>: {y}%",
-  //       indexLabel: "{label} - {y}%",
-  //       indexLabelPlacement: "inside",
-  //       dataPoints: sampleData,
-  //     },
-  //   ],
-  // };
-
-
-  const verifyInsrtructor = async () => {
-    const token = localStorage.getItem("token");
-    const headers = {
-      token: token,
-    };
-    await axios
-      .post(
-        `http://localhost:8081/api/instructors/verify`,
-        {},
-        {
-          headers: headers,
-        }
-      )
-      .then((res) => {
-        if (res.data.message == "Authentication Successfull") {
-        } else {
-          alert("your session expired and you have been logged out");
-          window.location.href = "/";
-        }
-      })
-      .catch((err) => {
-        alert("You have been logged out");
-        window.location.href = "/";
-        console.log(err);
-      });
-  };
-
- 
-  const options = {
-    animationEnabled: true,
-    title: {
-      text: "Student Progress Overview",
-    },
-    data: [
-      {
-        type: "pie",
-        startAngle: 60,
-        toolTipContent: "<b>{label}</b>: {y}%",
-        indexLabel: "{label} - {y}%",
-        indexLabelPlacement: "inside",
-        dataPoints: progressData,
-      },
-    ],
-  };
-
- 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    formData.append("status", "Not Approved"); // Add status field manually
+    formData.append("status", "Not Approved");
+
     try {
       await axios.post("http://localhost:8082/api/courseContent/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Course content added successfully");
     } catch (error) {
@@ -143,330 +74,84 @@ const InstructorDashboard = () => {
     }
   };
 
+  const options = {
+    animationEnabled: true,
+    title: { text: "Student Progress Overview" },
+    data: [{ type: "pie", startAngle: 60, toolTipContent: "<b>{label}</b>: {y}%", indexLabel: "{label} - {y}%", indexLabelPlacement: "inside", dataPoints: progressData }],
+  };
+
   return (
     <div className="row">
       <div className="col-md-2 navigation-container">
         <div className="nav-item-container">
-          <a
-            href="#"
-            className="nav-link"
-            onClick={() => handleNavItemClick("Add")}
-          >
-            Add Course Content
-          </a>
+          <a href="#" className="nav-link" onClick={() => handleNavItemClick("Add")}>Add Course Content</a>
         </div>
         <div className="nav-item-container">
-          <a
-            href="#"
-            className="nav-link"
-            onClick={() => handleNavItemClick("Update and Delete")}
-          >
-            Update/Delete Course Content
-          </a>
+          <a href="#" className="nav-link" onClick={() => handleNavItemClick("Update and Delete")}>Update/Delete Course Content</a>
         </div>
         <div className="nav-item-container">
-          <a
-            href="#"
-            className="nav-link"
-            onClick={() => handleNavItemClick("Monitor")}
-          >
-            Monitor Learner Progress
-          </a>
+          <a href="#" className="nav-link" onClick={() => handleNavItemClick("Monitor")}>Monitor Learner Progress</a>
         </div>
       </div>
       <div className="col-md-10">
-        {/* <h4>Content Area</h4> */}
         {selectedNavItem === "Add" && (
           <div className="container py-4">
             <div className="row justify-content-center">
               <div className="col-lg-6 mb-5 mb-lg-0">
-                <div
-                  className="card cascading-right bg-body-tertiary border-0 shadow p-4"
-                  style={{ backdropFilter: "blur(30px)" }}
-                >
+                <div className="card cascading-right bg-body-tertiary border-0 shadow p-4" style={{ backdropFilter: "blur(30px)" }}>
                   <div className="card-body p-5 shadow-5 text-center">
                     <h3>Add Course Content</h3>
                   </div>
-                  {/* <form className="needs-validation" noValidate> */}
                   <form onSubmit={handleSubmit} encType="multipart/form-data">
-                    {/* Your form fields go here */}
                     <div className="mb-3 row">
-                      <label
-                        htmlFor="courseName"
-                        className="col-sm-2 col-form-label"
-                      >
-                        Course :
-                      </label>
+                      <label htmlFor="courseName" className="col-sm-2 col-form-label">Course :</label>
                       <div className="col-sm-10">
-                        <select
-                          className="form-select"
-                          id="courseName"
-                          name="courseName"
-                          required
-                        >
+                        <select className="form-select" id="courseName" name="courseName" required>
                           <option value="">Select a course</option>
                           {courseNames.map((courseName, index) => (
-                            <option key={index} value={courseName}>
-                              {courseName}
-                            </option>
+                            <option key={index} value={courseName}>{courseName}</option>
                           ))}
                         </select>
-                        <div className="invalid-feedback">
-                          Please select a course.
-                        </div>
+                        <div className="invalid-feedback">Please select a course.</div>
                       </div>
                     </div>
                     <div className="mb-3 row">
-                      <label
-                        htmlFor="contentTitle"
-                        className="col-sm-2 col-form-label"
-                      >
-                        Title:
-                      </label>
+                      <label htmlFor="contentTitle" className="col-sm-2 col-form-label">Title:</label>
                       <div className="col-sm-10">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="contentTitle"
-                          name="title"
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Please provide a title.
-                        </div>
+                        <input type="text" className="form-control" id="contentTitle" name="title" required />
+                        <div className="invalid-feedback">Please provide a title.</div>
                       </div>
                     </div>
                     <div className="mb-3 row">
-                      <label
-                        htmlFor="contentFile"
-                        className="col-sm-2 col-form-label"
-                      >
-                        Content:
-                      </label>
+                      <label htmlFor="contentFile" className="col-sm-2 col-form-label">Content:</label>
                       <div className="col-sm-10">
-                        <input
-                          type="file"
-                          className="form-control"
-                          id="contentFile"
-                          name="content"
-                          accept="application/pdf"
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Please choose a file.
-                        </div>
+                        <input type="file" className="form-control" id="contentFile" name="content" accept="application/pdf" required />
+                        <div className="invalid-feedback">Please choose a PDF file.</div>
                       </div>
                     </div>
                     <div className="mb-3 row">
-                      <label
-                        htmlFor="duration"
-                        className="col-sm-2 col-form-label"
-                      >
-                        Duration:
-                      </label>
+                      <label htmlFor="duration" className="col-sm-2 col-form-label">Duration:</label>
                       <div className="col-sm-10">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="duration"
-                          name="duration"
-                          required
-                        />
-                        <div className="invalid-feedback">
-                          Please provide a duration.
-                        </div>
+                        <input type="text" className="form-control" id="duration" name="duration" required />
+                        <div className="invalid-feedback">Please provide a duration.</div>
                       </div>
                     </div>
                     <div className="mb-3 row">
-                      <label
-                        htmlFor="status"
-                        className="col-sm-2 col-form-label"
-                      >
-                        Status:
-                      </label>
+                      <label htmlFor="status" className="col-sm-2 col-form-label">Status:</label>
                       <div className="col-sm-10">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="status"
-                          name="status"
-                          value={"Not Registered"}
-                          readOnly
-                        />
-                        <div className="invalid-feedback">
-                          Please provide a status.
-                        </div>
+                        <input type="text" className="form-control" id="status" name="status" value="Not Registered" readOnly />
+                        <div className="invalid-feedback">Please provide a status.</div>
                       </div>
                     </div>
-                    {/* Add more form fields as needed */}
-                    <button type="submit" className="btn btn-primary me-md-2">
-                      ADD
-                    </button>
-                    <button type="clear" className="btn btn-primary">
-                      CLEAR
-                    </button>
+                    <button type="submit" className="btn btn-primary me-md-2">ADD</button>
+                    <button type="clear" className="btn btn-primary">CLEAR</button>
                   </form>
                 </div>
               </div>
             </div>
           </div>
         )}
-        {selectedNavItem === "Update and Delete" && (
-          <div>
-            <div className="container py-4">
-              <div className="row justify-content-center">
-                {" "}
-                <div
-                  className="col-lg-6 mb-5 mb-lg-0"
-                  style={{ width: "100%" }}
-                >
-                  <div
-                    className="card cascading-right bg-body-tertiary border-0 shadow p-4"
-                    style={{ backdropFilter: "blur(30px)" }}
-                  >
-                    <div className="card-body p-5 shadow-5 text-center">
-                      <h3>Course content</h3>
-
-                      <div className="container py-4">
-                        <div className="row justify-content-center">
-                          <div
-                            className="col-lg-6 mb-5 mb-lg-0"
-                            style={{ width: "100%" }}
-                          >
-                            {courseContents.map((content) => (
-                              <div key={content._id} className="card mb-3">
-                                <div className="card-body d-flex justify-content-between align-items-center">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      gap: "5rem",
-                                    }}
-                                  >
-                                    <div>{content.courseName}</div>
-                                    <div>{content.title}</div>
-                                    <div>{content.duration}</div>
-                                    <div>{content.status}</div>
-                                  </div>
-                                  <button
-                                    type="button"
-                                    className="btn btn-success"
-                                  >
-                                    UPDATE
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                  >
-                                    DELETE
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {selectedNavItem === "Monitor" && (
-          <div>
-            <div className="row justify-content-end">
-              <select
-                className="form-select"
-                style={{
-                  width: "25%",
-                  justifyContent: "center",
-                  marginTop: "5em",
-                  marginRight: "5em",
-                }}
-                onChange={(e) => setSelectedCourse(e.target.value)}
-                value={selectedCourse}
-              >
-                <option value="">Select a course</option>
-                {courseNames.map((courseName, index) => (
-                  <option key={index} value={courseName}>
-                    {courseName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {selectedCourse && (
-              <div className="container py-4">
-                <div className="row g-0 align-items-center">
-                  <div
-                    className="col-lg-6 mb-5 mb-lg-0"
-                    style={{ width: "25%", marginRight: "5em" }}
-                  >
-                    <div
-                      className="card cascading-right bg-body-tertiary border-0 shadow p-4"
-                      style={{
-                        backdropFilter: "blur(30px)",
-                        width: "",
-                        height: "8em",
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <div style={{ marginRight: "10px" }}>
-                          <h6>No of students</h6>
-                          <h5>{studentCount}</h5>
-                        </div>
-                        <div>
-                          <i
-                            className="fa fa-users"
-                            aria-hidden="true"
-                            style={{ fontSize: "40px", color: "#868b92" }}
-                          ></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 mb-5 mb-lg-0">
-                    <div
-                      className="card cascading-right bg-body-tertiary border-0 shadow p-4"
-                      style={{
-                        backdropFilter: "blur(30px)",
-                        width: "fit-content",
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <div style={{ marginRight: "10px" }}>
-                          <h6>Course Name</h6>
-                          <h5>{selectedCourse}</h5>
-                        </div>
-                        <div>
-                          <i
-                            className="fa fa-graduation-cap"
-                            aria-hidden="true"
-                            style={{ fontSize: "40px", color: "#868b92" }}
-                          ></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div className="container py-4">
-              <div className="row g-0 align-items-center">
-                <div className="col-lg-6 mb-5 mb-lg-0">
-                  <div
-                    className="card cascading-right bg-body-tertiary border-0 shadow p-4"
-                    style={{ backdropFilter: "blur(30px)" }}
-                  >
-                    {/* Insert your CanvasJS chart component here */}
-                    <CanvasJSReact.CanvasJSChart options={options} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Other conditional renderings for "Update and Delete" and "Monitor" */}
       </div>
     </div>
   );
