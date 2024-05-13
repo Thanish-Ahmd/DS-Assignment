@@ -54,7 +54,7 @@ const LearnerDashboard = () => {
         }
       )
       .then((res) => {
-        if (res.data.message === "Authentication Successful") {
+        if (res.data.message == "Authentication Successfull") {
         } else {
           alert("Your session expired and you have been logged out");
           window.location.href = "/";
@@ -72,6 +72,7 @@ const LearnerDashboard = () => {
   // }, []);
 
   useEffect(() => {
+    verifyLearner();
     const fetchCourseDetails = async () => {
       const response = await fetch('http://localhost:8082/api/courseMaster/all');
       const data = await response.json();

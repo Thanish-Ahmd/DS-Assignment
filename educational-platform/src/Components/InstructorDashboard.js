@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.css";
+import InstructotNavBar from "./InstructotNavBar";
 
 const InstructorDashboard = () => {
   const [selectedNavItem, setSelectedNavItem] = useState("");
