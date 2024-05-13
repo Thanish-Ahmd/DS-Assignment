@@ -43,16 +43,25 @@ exports.addCourseContent = async (req, res) => {
   }
 };
 
+// Backend: Fetching Course Content
 exports.getAllCourseContent = async (req, res) => {
   try {
     const courseContents = await CourseContent.find();
     res.status(200).send({
-      message: "Course Content retreived",
-      courseContents: courseContents,
+      message: "Course Content retrieved",
+      courseContents: courseContents.map((content) => ({
+        _id: content._id,
+        courseName: content.courseName,
+        title: content.title,
+        duration: content.duration,
+        status: content.status,
+        // Convert buffer to base64 string
+        content: content.content.toString("base64"),
+      })),
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
-    console.log(error.response.data);
+    console.error("Error fetching course content:", err);
   }
 };
 
