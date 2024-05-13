@@ -25,4 +25,8 @@ router.post(
 
 router.delete("/api/courseContent/:id", courseContentController.deleteCourseContent);
 
+router.put(
+  "/api/courseContent/:id",
+  courseContentController.updateCourseContentStatus
+);
 module.exports = router;
