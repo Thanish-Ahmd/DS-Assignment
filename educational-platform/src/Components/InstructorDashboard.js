@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.css";
+import InstructotNavBar from "./InstructotNavBar";
 
 const InstructorDashboard = () => {
   const [selectedNavItem, setSelectedNavItem] = useState("");
@@ -20,6 +21,7 @@ const InstructorDashboard = () => {
   const [successAlert, setSuccessAlert] = useState(false);
 
   useEffect(() => {
+    verifyIntructor();
     const fetchCourseNames = async () => {
       try {
         const response = await axios.get(
@@ -31,9 +33,6 @@ const InstructorDashboard = () => {
       }
     };
     fetchCourseNames();
-  }, []);
-
-  useEffect(() => {
     const fetchCourseContents = async () => {
       try {
         const response = await axios.get(
@@ -47,6 +46,32 @@ const InstructorDashboard = () => {
     fetchCourseContents();
   }, []);
 
+  const verifyIntructor = async () => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      token: token,
+    };
+    await axios
+      .post(
+        `http://localhost:8081/api/instructors/verify`,
+        {},
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        if (res.data.message == "Authentication Successfull") {
+        } else {
+          alert("your session expired and you have been logged out");
+          window.location.href = "/";
+        }
+      })
+      .catch((err) => {
+        alert("You have been logged out");
+        window.location.href = "/";
+        console.log(err);
+      });
+  };
   const handleNavItemClick = (itemName) => {
     setSelectedNavItem(itemName);
     if (itemName === "Add") {
@@ -108,6 +133,11 @@ const InstructorDashboard = () => {
     ],
   };
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
+
   return (
     <div className="row">
       <div className="col-md-2 navigation-container">
@@ -136,6 +166,21 @@ const InstructorDashboard = () => {
             onClick={() => handleNavItemClick("Monitor")}
           >
             Monitor Learner Progress
+          </a>
+        </div>
+        <div className="nav-item-container">
+          <a href="/instructorProfile" className="nav-link">
+            Profile
+          </a>
+        </div>
+        <div className="nav-item-container">
+          <a href="/instructorPasswordChange" className="nav-link">
+            Change Password
+          </a>
+        </div>
+        <div className="nav-item-container">
+          <a href="/#" className="nav-link" onClick={logout}>
+            Logout
           </a>
         </div>
       </div>

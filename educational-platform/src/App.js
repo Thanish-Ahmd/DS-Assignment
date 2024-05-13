@@ -29,6 +29,8 @@ import AllAdmins from "./Components/AllAdmins";
 import CourseEnrollement from "./Components/CourseEnrollement";
 import LearnerCourses from "./Components/LearnerCourses";
 import AllCourses from "./Components/AllCourses";
+import InstructorProfile from "./Components/InstructorProfile";
+import InstructorPasswordChange from "./Components/InstructorPasswordChange";
 
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
@@ -95,8 +97,14 @@ function App() {
           <Route path="/instructors" element={<Instructors />} />
           <Route path="/allAdmins" element={<AllAdmins />} />
           <Route path="/addInstructor" element={<AddInstructor />} />
-          <Route path="/courseContentApproval" element={<CourseContentApproval />} />
-          <Route path="/instructorDashboard" element={<InstructorDashboard />} />
+          <Route
+            path="/courseContentApproval"
+            element={<CourseContentApproval />}
+          />
+          <Route
+            path="/instructorDashboard"
+            element={<InstructorDashboard />}
+          />
           <Route path="/adminProfile" element={<AdminProfile />} />
           <Route
             path="/adminChangePassword"
@@ -114,7 +122,12 @@ function App() {
           <Route path="/adminProfile" element={<AdminProfile />} />
 
           <Route path="/insructorDashboard" element={<InstructorDashboard />} />
-
+          <Route path="/instructorProfile" element={<InstructorProfile />} />
+          <Route
+            path="/instructorPasswordChange"
+            element={<InstructorPasswordChange />}
+          />
+          <Route path="/adminDashboard" element={<AdminDashboard />} />
           <Route path="/learnerDashboard" element={<LearnerDashboard />} />
           <Route path="/learnerProfile" element={<LearnerProfile />} />
           <Route
