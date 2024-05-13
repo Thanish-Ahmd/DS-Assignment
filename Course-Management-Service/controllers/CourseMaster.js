@@ -20,3 +20,14 @@ exports.getAllCourseNames = async (req, res) => {
     res.status(500).json({ message: "Failed to retrieve course names" });
   }
 };
+
+exports.getAllCourseNamesMaster = async (req, res) => {
+  try {
+    const courses = await CourseMaster.find({}, "courseName");
+    const courseNames = courses.map((course) => course.courseName);
+    res.status(200).json(courseNames);
+  } catch (error) {
+    console.error("Error retrieving course names:", error);
+    res.status(500).json({ message: "Failed to retrieve course names" });
+  }
+};
