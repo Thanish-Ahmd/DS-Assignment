@@ -133,6 +133,11 @@ const InstructorDashboard = () => {
     ],
   };
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
+
   return (
     <div className="row">
       <div className="col-md-2 navigation-container">
@@ -161,6 +166,21 @@ const InstructorDashboard = () => {
             onClick={() => handleNavItemClick("Monitor")}
           >
             Monitor Learner Progress
+          </a>
+        </div>
+        <div className="nav-item-container">
+          <a href="/instructorProfile" className="nav-link">
+            Profile
+          </a>
+        </div>
+        <div className="nav-item-container">
+          <a href="/instructorPasswordChange" className="nav-link">
+            Change Password
+          </a>
+        </div>
+        <div className="nav-item-container">
+          <a href="/#" className="nav-link" onClick={logout}>
+            Logout
           </a>
         </div>
       </div>

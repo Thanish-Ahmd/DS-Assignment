@@ -179,3 +179,53 @@ exports.deleteInstructor = async (req, res) => {
       res.status(200).send({ message: "Error in deleting", error: err });
     });
 };
+
+exports.changePassword = async (req, res) => {
+  const token = req.headers.token;
+  const { oldPassword, password } = req.body;
+  const hashedPassword = await hashPassword(password);
+
+  const updatedPassword = {
+    password: hashedPassword,
+  };
+
+  try {
+    verifyToken(token)
+      .then(async (decoded) => {
+        if (decoded.type == "instructor") {
+          console.log(decoded.email);
+          const instructor = await Instructor.findOne({ email: decoded.email });
+          const match = await comparePasswords(oldPassword, instructor.password);
+          if (match) {
+            await Instructor.findOneAndUpdate(
+              { email: decoded.email },
+              updatedPassword
+            )
+              .then((rs) => {
+                res
+                  .status(200)
+                  .send({ admin: rs.data, message: "Password changed" });
+              })
+              .catch((err) => {
+                console.log(err);
+                res.status(200).send({ message: "Error in changing password" });
+              });
+          } else {
+            res.status(200).send({
+              message: "Incorrect Password",
+            });
+          }
+        } else {
+          res.status(200).send({
+            message: "Authentication not Successfull",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(200).send({ message: "Error Occured", error: err });
+      });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
