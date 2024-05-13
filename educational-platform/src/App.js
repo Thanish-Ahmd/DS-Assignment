@@ -26,6 +26,7 @@ import axios from "axios";
 import LearnerProfile from "./Components/LearnerProfile";
 import LearnerChangePassword from "./Components/LearnerChangePassword";
 import AllAdmins from "./Components/AllAdmins";
+import CourseEnrollement from "./Components/CourseEnrollement";
 import LearnerCourses from "./Components/LearnerCourses";
 import AllCourses from "./Components/AllCourses";
 
@@ -123,6 +124,7 @@ function App() {
           <Route path="/myCourses" element={<LearnerCourses />} />
           <Route path="/allCourses" element={<AllCourses />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/enrollement" element={<CourseEnrollement />} />
         </Routes>
       </div>
     </BrowserRouter>
