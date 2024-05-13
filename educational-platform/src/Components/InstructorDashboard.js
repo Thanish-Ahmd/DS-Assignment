@@ -21,6 +21,7 @@ const InstructorDashboard = () => {
   const [successAlert, setSuccessAlert] = useState(false);
 
   useEffect(() => {
+    verifyIntructor();
     const fetchCourseNames = async () => {
       try {
         const response = await axios.get(
@@ -32,9 +33,6 @@ const InstructorDashboard = () => {
       }
     };
     fetchCourseNames();
-  }, []);
-
-  useEffect(() => {
     const fetchCourseContents = async () => {
       try {
         const response = await axios.get(
@@ -48,6 +46,32 @@ const InstructorDashboard = () => {
     fetchCourseContents();
   }, []);
 
+  const verifyIntructor = async () => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      token: token,
+    };
+    await axios
+      .post(
+        `http://localhost:8081/api/instructors/verify`,
+        {},
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        if (res.data.message == "Authentication Successfull") {
+        } else {
+          alert("your session expired and you have been logged out");
+          window.location.href = "/";
+        }
+      })
+      .catch((err) => {
+        alert("You have been logged out");
+        window.location.href = "/";
+        console.log(err);
+      });
+  };
   const handleNavItemClick = (itemName) => {
     setSelectedNavItem(itemName);
     if (itemName === "Add") {
