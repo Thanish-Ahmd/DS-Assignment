@@ -7,7 +7,9 @@ const Payment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8084/pay"); 
+      const response = await axios.post("http://localhost:8084/pay",{
+      coursePrice: coursePrice, // Send the course price to the backend
+    });
       console.log(response.data);
       // Redirect user to the PayPal approval URL
       window.location.href = response.data.approval_url;
