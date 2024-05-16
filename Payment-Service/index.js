@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 8084;
 const app = express();
 
 app.use(cors());
-app.use(express.json()); // Parse JSON bodies
+app.use(express.json()); 
 let coursePrice;
 
 app.post("/pay", (req, res) => {
