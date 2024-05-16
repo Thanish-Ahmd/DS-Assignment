@@ -16,8 +16,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json()); // Parse JSON bodies
+let coursePrice;
 
 app.post("/pay", (req, res) => {
+  coursePrice = req.body.coursePrice; // Get the course price from the request body
   const create_payment_json = {
     intent: "sale",
     payer: {
@@ -34,7 +36,7 @@ app.post("/pay", (req, res) => {
             {
               name: "Distributed Systems",
               sku: "001",
-              price: "1.00",
+              price: coursePrice,
               currency: "USD",
               quantity: 1
             },
@@ -42,7 +44,7 @@ app.post("/pay", (req, res) => {
         },
         amount: {
           currency: "USD",
-          total: "1.00",
+          total: coursePrice,
         },
         description: "Learn about Distributed Systems",
       },
@@ -74,7 +76,7 @@ app.get("/success", (req, res) => {
       {
         amount: {
           currency: "USD",
-          total: "1.00",
+          total: coursePrice,
         },
       },
     ],
