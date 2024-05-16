@@ -6,9 +6,9 @@ const path = require("path");
 paypal.configure({
   mode: "sandbox",
   client_id:
-    "AZdIKe_XMgGF-A5RHKVwF1J0M96EV0L1Ofhm5JXLfLBpNhAcpwQKH0ziReIwz5pC5z2xV7fE6tB_XM-x",
+    "AfOhvVjAQTBODJbuxQzUSqrTqkvGg8y23qxrElGaBhnuv_tbQZbcN13Te-HS2MW9b4oXYY_IAOfi4B1-",
   client_secret:
-    "EGNCtnhrdwzLKDuSXZh3xR8PMChdQO4g2JASIC3gba3YQ75xc8TJQft2a_mwO9bbrraEHT96JC-_5BPs",
+    "EM_ma95RALDjUCWE9AHP6o6-wHbb9wio1MQSBbnztbdYsYB-lU2A39tT1-o_h7rsn6Fxm32PFa3gTNeU",
 });
 
 const PORT = process.env.PORT || 8084;
@@ -16,8 +16,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json()); // Parse JSON bodies
+let coursePrice;
 
 app.post("/pay", (req, res) => {
+  coursePrice = req.body.coursePrice; // Get the course price from the request body
   const create_payment_json = {
     intent: "sale",
     payer: {
@@ -34,7 +36,7 @@ app.post("/pay", (req, res) => {
             {
               name: "Distributed Systems",
               sku: "001",
-              price: "1.00",
+              price: coursePrice,
               currency: "USD",
               quantity: 1
             },
@@ -42,7 +44,7 @@ app.post("/pay", (req, res) => {
         },
         amount: {
           currency: "USD",
-          total: "1.00",
+          total: coursePrice,
         },
         description: "Learn about Distributed Systems",
       },
@@ -74,7 +76,7 @@ app.get("/success", (req, res) => {
       {
         amount: {
           currency: "USD",
-          total: "1.00",
+          total: coursePrice,
         },
       },
     ],

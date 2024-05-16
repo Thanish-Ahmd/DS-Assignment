@@ -1,50 +1,23 @@
 import React, { useEffect, useState } from "react";
 import AdminNavBar from "./AdminNavBar";
 import axios from "axios";
+import "./../Styles/contentApproval.css";
 
 const CourseContentApproval = () => {
   const [courseContents, setCourseContents] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [approvalFormData, setApprovalFormData] = useState({
+    courseCode: "",
     courseName: "",
-    title: "",
     content: "",
     duration: "",
     status: "",
   });
 
   useEffect(() => {
-    verifyAdmin();
     getAllCourseContent();
   }, []);
 
-  const verifyAdmin = async () => {
-    const token = localStorage.getItem("token");
-    const headers = {
-      token: token,
-    };
-    await axios
-      .post(
-        `http://localhost:8081/api/admins/verify`,
-        {},
-        {
-          headers: headers,
-        }
-      )
-      .then((res) => {
-        if (res.data.message == "Authentication Successfull") {
-        } else {
-          console.log(res.data);
-          alert("your session expired and you have been logged out");
-
-          window.location.href = "/";
-        }
-      })
-      .catch((err) => {
-        alert("You have been logged out");
-        window.location.href = "/";
-      });
-  };
   const getAllCourseContent = () => {
     axios
       .get(`http://localhost:8082/api/courseContent/`)
@@ -57,8 +30,12 @@ const CourseContentApproval = () => {
   };
 
   const handleApprovalClick = (courseContent) => {
-    setSelectedCourse(courseContent);
-    setApprovalFormData(courseContent);
+    let courseData = {
+      ...courseContent,
+      content: courseContent.content.substring(0, 100),
+    };
+    setSelectedCourse(courseData);
+    setApprovalFormData(courseData);
   };
 
   const handleInputChange = (e) => {
@@ -74,10 +51,13 @@ const CourseContentApproval = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Send updated data to backend
+
+    let approvedCourseData = { ...approvalFormData, status: "Approved" };
+
     axios
       .put(
         `http://localhost:8082/api/courseContent/${selectedCourse._id}`,
-        approvalFormData
+        approvedCourseData
       )
       .then((res) => {
         console.log("Course content updated successfully");
@@ -104,9 +84,9 @@ const CourseContentApproval = () => {
               <th scope="col">Title</th>
               <th scope="col">Content</th>
               <th scope="col">Duration</th>
-              {/* <th scope="col">Timestamp</th> */}
+              <th scope="col">Timestamp</th>
               <th scope="col">Status</th>
-              <th scope="col">Approval</th>
+              <th scope="col">Approval Status</th>
             </tr>
           </thead>
           <tbody>
@@ -115,17 +95,23 @@ const CourseContentApproval = () => {
                 <th scope="col">{index + 1}</th>
                 <td>{courseContent.courseName}</td>
                 <td>{courseContent.title}</td>
-                <td>{courseContent.content}</td>
+                <td className="contentStyle">
+                  {courseContent.content.substring(0, 50) + "..."}
+                </td>
                 <td>{courseContent.duration}</td>
-                {/* <td>{courseContent.timestamps}</td> */}
+                <td>{courseContent.timestamps}</td>
                 <td>{courseContent.status}</td>
                 <td>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => handleApprovalClick(courseContent)}
-                  >
-                    Approval
-                  </button>
+                  {courseContent.status === "Approved" ? (
+                    <button className="btn btn-secondary">Approved</button>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleApprovalClick(courseContent)}
+                    >
+                      Approve
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -142,8 +128,7 @@ const CourseContentApproval = () => {
               margin: "auto",
             }}
           >
-            <h4>Approval Form</h4>
-
+            <h4>Course Content Approval</h4>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Course Name:</label>
@@ -189,7 +174,7 @@ const CourseContentApproval = () => {
                   readOnly
                 />
               </div>
-              {/* <div className="form-group">
+              <div className="form-group">
                 <label>Created At:</label>
                 <input
                   type="text"
@@ -199,7 +184,7 @@ const CourseContentApproval = () => {
                   className="form-control"
                   readOnly
                 />
-              </div> */}
+              </div>
               <div className="form-group">
                 <label>Status:</label>
                 <select
@@ -213,11 +198,9 @@ const CourseContentApproval = () => {
                   <option value="Rejected">Rejected</option>
                 </select>
               </div>
-
-              <br/>
               <button type="submit" className="btn btn-success">
-                  Submit
-                </button>
+                Submit
+              </button>
             </form>
           </div>
         )}

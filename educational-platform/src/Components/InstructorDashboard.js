@@ -3,6 +3,7 @@ import CanvasJSReact from "@canvasjs/react-charts";
 import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.css";
 import InstructotNavBar from "./InstructotNavBar";
+import LearnerProgressMonitor from "./LearnerProgressMonitor";
 
 const InstructorDashboard = () => {
   const [selectedNavItem, setSelectedNavItem] = useState("");
@@ -466,7 +467,7 @@ const InstructorDashboard = () => {
               </div>
             </div>
             {isEditing && (
-              <div style = {{ marginLeft: '250px',}}>
+              <div style={{ marginLeft: "250px" }}>
                 <input
                   type="text"
                   value={editFormData.courseName}
@@ -514,6 +515,9 @@ const InstructorDashboard = () => {
               </div>
             )}
           </div>
+        )}
+        {selectedNavItem === "Monitor" && (
+          <LearnerProgressMonitor></LearnerProgressMonitor>
         )}
       </div>
     </div>

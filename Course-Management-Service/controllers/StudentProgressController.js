@@ -1,14 +1,10 @@
-const StudentProgress = require("../models/StudentProgress");
+const Student_Courses = require("../models/StudentProgress");
 
 exports.getStudentProgressByCourse = async (req, res) => {
   const { courseName } = req.params;
 
   try {
-    // Fetch total count of students for the selected course
-    const studentCount = await StudentProgress.countDocuments({ courseName });
-
-    // Calculate the count of students in each progression category
-    const progressData = await StudentProgress.aggregate([
+    const courseProgressData = await Student_Courses.aggregate([
       { $match: { courseName } },
       {
         $group: {
@@ -19,16 +15,32 @@ exports.getStudentProgressByCourse = async (req, res) => {
       {
         $project: {
           _id: 0,
-          label: "$_id",
-          y: "$count",
+          progressionLevel: "$_id",
+          studentCount: "$count",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalRecords: { $sum: "$studentCount" },
+          progressData: {
+            $push: {
+              progressionLevel: "$progressionLevel",
+              studentCount: "$studentCount",
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalRecords: 1,
+          progressData: 1,
         },
       },
     ]);
 
-    res.status(200).json({
-      studentCount,
-      progressData,
-    });
+    res.status(200).json(courseProgressData[0]);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
