@@ -7,7 +7,7 @@ const LearnerNavBar = () => {
   };
   return (
     <div className="col-md-2 navigation-container">
-      <a href="/learnerDashboard" className="nav-item-container">
+      {/* <a href="/learnerDashboard" className="nav-item-container">
         Dashboard
       </a>
       <a href="/allCourses" className="nav-item-container">
@@ -24,7 +24,7 @@ const LearnerNavBar = () => {
       </a>
       <a href="/#" className="nav-item-container" onClick={logout}>
         Log out
-      </a>
+      </a> */}
     </div>
   );
 };
