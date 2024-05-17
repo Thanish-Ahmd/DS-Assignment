@@ -23,14 +23,13 @@ import CourseContentApproval from "./Components/CourseContentApproval";
 import Payment from "./Components/Payment";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import LearnerProfile from "./Components/LearnerProfile";
-import LearnerChangePassword from "./Components/LearnerChangePassword";
 import AllAdmins from "./Components/AllAdmins";
 import CourseEnrollement from "./Components/CourseEnrollement";
-import LearnerCourses from "./Components/LearnerCourses";
+// import LearnerCourses from "./Components/LearnerCourses";
 import AllCourses from "./Components/AllCourses";
 import InstructorProfile from "./Components/InstructorProfile";
 import InstructorPasswordChange from "./Components/InstructorPasswordChange";
+import LearnerProfile from "./Components/LearnerProfile";
 
 function App() {
   const [adminLogged, setAdminLogged] = useState(false);
@@ -53,7 +52,7 @@ function App() {
         }
       )
       .then((res) => {
-        if (res.data.message == "Authentication Successfull") {
+        if (res.data.message == "Authentication Successful") {
         } else {
           window.location.href = "/";
         }
@@ -77,7 +76,7 @@ function App() {
         }
       )
       .then((res) => {
-        if (res.data.message == "Authentication Successfull") {
+        if (res.data.message == "Authentication Successful") {
         } else {
           window.location.href = "/";
         }
@@ -130,11 +129,6 @@ function App() {
           <Route path="/adminDashboard" element={<AdminDashboard />} />
           <Route path="/learnerDashboard" element={<LearnerDashboard />} />
           <Route path="/learnerProfile" element={<LearnerProfile />} />
-          <Route
-            path="/learnerChangePassword"
-            element={<LearnerChangePassword />}
-          />
-          <Route path="/myCourses" element={<LearnerCourses />} />
           <Route path="/allCourses" element={<AllCourses />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/enrollement" element={<CourseEnrollement />} />

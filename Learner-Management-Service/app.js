@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./configs/db");
+const cors = require("cors");
 
 const app = express();
 
@@ -13,8 +14,10 @@ connectDB();
 // Parse JSON request bodies
 app.use(express.json());
 
-// Set up your routes
+app.use(cors());
 
+// Set up your routes
+app.use(require('./routes/learnerRoutes'));
 
 const PORT = process.env.PORT || 8085;
 
