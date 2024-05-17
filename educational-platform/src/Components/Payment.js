@@ -65,7 +65,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '70vh', // Set the height of the container to full viewport height
+    height: '70vh', 
   },
   box: {
     textAlign: 'left',
